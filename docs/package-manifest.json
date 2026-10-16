@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-16T06:14:41Z",
+  "generated_at": "2026-10-16T10:27:09Z",
   "repository": "Qwen3.8-27B-Deployment",
   "file_count": 101,
   "files": [
@@ -15,8 +15,8 @@
     },
     {
       "path": "AGENTS.md",
-      "size": 4092,
-      "sha256": "b1072774dec961bb13886cf05fe51e9c19f22fe192cdb59ef424593fc62a5a20"
+      "size": 4602,
+      "sha256": "e0428959cf9143f9a6e06d29b3efa90fa2dd08a8ffb1900871fbd898b1b1ad4f"
     },
     {
       "path": "README.md",

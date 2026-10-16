@@ -38,15 +38,19 @@ documentation. This file is the operating manual for AI agents managing it.
 
 ## Workflow
 
-- **Always commit changes.** After any change, commit with a descriptive
-  message. Small, incremental commits. Do not leave the tree dirty.
+- **Always commit AND push changes.** After any change, commit with a
+  descriptive message and push to `origin` immediately (`git push origin
+  main` — a repo-local credential helper makes this automatic, see
+  Publishing). Make **frequent, small, incremental commits and pushes**
+  rather than batching unrelated changes. Never leave the working tree dirty
+  or commits unpushed at the end of a task.
 - After adding/removing/renaming/materially changing files, regenerate
   `docs/package-manifest.json` (`python3 tests/gen_manifest.py`) before
   committing.
 - Evidence naming: `<profile>-<kind>-<UTC YYYYMMDDTHHMMSSZ>.json`; never
   overwrite an existing report; retain failed/invalid probes and mark them.
-- Never commit: model weights or caches (`.cache/`), logs (`logs/`), `.env`,
-  shell history, tokens. `.gitignore` is a guardrail, not permission.
+- Never commit: model weights or caches (`.cache/`), logs (`logs/`), any
+  `.env`, shell history, tokens. `.gitignore` is a guardrail, not permission.
 
 ## Server info
 
@@ -61,21 +65,25 @@ documentation. This file is the operating manual for AI agents managing it.
 
 ## Publishing
 
-No remote is configured yet (local-only commits by agreement, 2026-10-16).
-When publishing is re-enabled, prefer the Pratt Gitea remote
-`http://itgit.pratt.edu/tngai/Qwen3.8-27B-Deployment.git` using `GITEA_TOKEN`
-from `.env` (the host only resolves `itgit.pratt.edu` on the Pratt network),
-or a GitHub remote under `tedngai` with a fine-grained PAT in `.env`
-(`GITHUB_PAT`). For either, use a repo-local credential helper that reads the
-token from `.env`:
+- The public GitHub remote is `https://github.com/tedngai/Spark-Qwen38-27B.git`
+  (remote name `origin`). Push with `git push origin main` — after every
+  commit, per the workflow above.
+- **Credential location:** the GitHub PAT is stored in **`/home/tngai/.env`**
+  (home directory — *outside* this repository), variable name `GITHUB_PAT`.
+  (The original hand-off said `~/data/.env`; the actual file is `~/.env`. If
+  the token ever moves, update the helper below and this note.)
+- A repo-local git credential helper already reads the PAT from that file, so
+  a plain `git push origin main` works with no extra steps. If the helper is
+  ever missing, recreate it with:
 
-```bash
-git config --local credential.helper \
-  '!f() { . /home/tngai/data/vllm-qwen38/.env; echo username=x-access-token; echo "password=${GITEA_TOKEN:-$GITHUB_PAT}"; }; f'
-```
+  ```bash
+  git config --local credential.helper \
+    '!f() { . /home/tngai/.env; echo username=x-access-token; echo "password=${GITHUB_PAT}"; }; f'
+  ```
 
-Never print a token, put one in a remote URL, copy one into tracked files, or
-stage `.env` (verify with `git check-ignore .env`).
+- Never print the token, put it in a remote URL or command history, copy it
+  into tracked files, or stage any `.env` (verify with `git check-ignore .env`
+  before committing).
 
 ## Memory history (why the baseline values)
 
