@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-10-16T04:26:57Z",
+  "generated_at": "2026-10-16T04:36:31Z",
   "repository": "Qwen3.8-27B-Deployment",
-  "file_count": 38,
+  "file_count": 44,
   "files": [
     {
       "path": ".env.example",
@@ -20,8 +20,8 @@
     },
     {
       "path": "README.md",
-      "size": 6744,
-      "sha256": "e908601e2ed477058a438c78dcc0e3f3b0b041fd24be95897fd65fecb624242d"
+      "size": 7020,
+      "sha256": "1eba1ab09321b4b779c6e6fd08dba9198a45986c6bf90c02c67685a1c07839e5"
     },
     {
       "path": "configs/docker/README.md",
@@ -115,8 +115,8 @@
     },
     {
       "path": "docs/results.md",
-      "size": 1521,
-      "sha256": "38b620c27761ef02c1acbae64768e2e1a32b6f6fd6561e542aec4fdf594b0934"
+      "size": 3587,
+      "sha256": "71ce40f6e96d55bc3ce057a41b1bb1f10efce00e89ce414803d393edc6c3ff8b"
     },
     {
       "path": "evidence/README.md",
@@ -124,9 +124,39 @@
       "sha256": "92d7696a0d9574ffb5bfbc6b2a099346de48c036fd92662abe9e478a15adb63c"
     },
     {
+      "path": "evidence/baseline-bench-20261016T043511Z.json",
+      "size": 92968,
+      "sha256": "6065faada849bc2a801dac0a4721223bfcf485d2ac70b44f2ff3c3e23acdcb00"
+    },
+    {
       "path": "evidence/baseline-server-info-20261016T042635Z.json",
       "size": 49897,
       "sha256": "27cc72f1fb23b63d74af20ba3b70791020931a9ad00fe832bbc29f506a102329"
+    },
+    {
+      "path": "evidence/baseline-server-info-20261016T043103Z.json",
+      "size": 49858,
+      "sha256": "f70daa6ec2afbc13212781912020355d61f3c82ab9c0ef03280f91c730a41c64"
+    },
+    {
+      "path": "evidence/baseline-smoke-20261016T043105Z.json",
+      "size": 1338,
+      "sha256": "01e6c24160863f5ce1c7e96cebb54c969e59e8273a3f51af4755740a64abae2c"
+    },
+    {
+      "path": "evidence/baseline-vllmbench-20261016T043511Z/benchmark_RadixArk_Qwen3.8-27B-NVFP4_20261016_043553.csv",
+      "size": 1189,
+      "sha256": "b98d27f6ff3f78a9d8f4215b4799e241b6e1abcb003c6ea83a7a28a0674098ab"
+    },
+    {
+      "path": "evidence/baseline-vllmbench-20261016T043511Z/benchmark_RadixArk_Qwen3.8-27B-NVFP4_20261016_043553.json",
+      "size": 4409,
+      "sha256": "df0bcfb5fbcc4815a20f661b4fd08b0e97189f97141b6ff17cbc407bd9c96c63"
+    },
+    {
+      "path": "evidence/baseline-vllmbench-20261016T043511Z/result_NVIDIA_GB10_RadixArk_Qwen3.8-27B-NVFP4_20261016_043553.json",
+      "size": 816,
+      "sha256": "9b5d75fb45eac832dc335a9e22371266917ba7aeef74431a03356477dd9694dd"
     },
     {
       "path": "evidence/legacy-20260816/benchmark_RadixArk_Qwen3.8-27B-NVFP4_20260816_010833.csv",

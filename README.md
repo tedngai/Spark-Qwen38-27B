@@ -80,6 +80,10 @@ directly comparable.
 - **Legacy measurement artifact:** the 2026-08-16 vllm-bench result set
   (`evidence/legacy-20260816/`) is internally inconsistent (grade F,
   ~0.03 req/s) and is retained for lineage only; see `docs/results.md`.
+- **vllm-benchmark-suite caveat:** it scores `content` tokens only; on this
+  thinking model small output budgets are consumed by `reasoning_content`, so
+  suite scores read near-zero even when the engine is healthy. Use the A/B
+  harness for ranking (see `docs/results.md`).
 
 ## Not yet validated
 
