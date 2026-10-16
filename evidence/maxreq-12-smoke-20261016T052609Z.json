@@ -1,0 +1,53 @@
+{
+  "captured_at": "2026-10-16T05:26:07Z",
+  "base_url": "http://127.0.0.1:8000",
+  "profile": "maxreq-12",
+  "health_status": 200,
+  "health_body": null,
+  "models": [
+    "RadixArk/Qwen3.8-27B-NVFP4"
+  ],
+  "model": "RadixArk/Qwen3.8-27B-NVFP4",
+  "request": {
+    "model": "RadixArk/Qwen3.8-27B-NVFP4",
+    "messages": [
+      {
+        "role": "user",
+        "content": "What is 2+2? Answer in one short sentence."
+      }
+    ],
+    "max_tokens": 256,
+    "temperature": 0
+  },
+  "response": {
+    "id": "1469f335aa7743e5a28df4baa226a5a0",
+    "object": "chat.completion",
+    "created": 1792128369,
+    "model": "RadixArk/Qwen3.8-27B-NVFP4",
+    "choices": [
+      {
+        "index": 0,
+        "message": {
+          "role": "assistant",
+          "content": "\n\n2 + 2 equals 4.",
+          "reasoning_content": "User asks: \"What is 2+2? Answer in one short sentence.\" Need answer one short sentence. Simple: 2+2 equals 4. Ensure one sentence.\n",
+          "tool_calls": null
+        },
+        "logprobs": null,
+        "finish_reason": "stop",
+        "matched_stop": 248046
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 65,
+      "total_tokens": 114,
+      "completion_tokens": 49,
+      "prompt_tokens_details": null,
+      "reasoning_tokens": 39
+    },
+    "metadata": {
+      "weight_version": "default"
+    }
+  },
+  "client_elapsed_s": 1.174
+}

@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-10-16T05:21:59Z",
+  "generated_at": "2026-10-16T05:31:18Z",
   "repository": "Qwen3.8-27B-Deployment",
-  "file_count": 70,
+  "file_count": 76,
   "files": [
     {
       "path": ".env.example",
@@ -115,8 +115,8 @@
     },
     {
       "path": "docs/results.md",
-      "size": 10011,
-      "sha256": "0c19d60bec2e1cef3c7aad0f028fe01fbe707d52a1553d6eacc46ae4d18fa001"
+      "size": 11546,
+      "sha256": "9c2ebe3c3454ac71c897d8dfef363530c513a2abb3d0f6977f0462fcd5974884"
     },
     {
       "path": "evidence/README.md",
@@ -237,6 +237,36 @@
       "path": "evidence/mamba-bf16-vllmbench-20261016T051124Z/result_NVIDIA_GB10_RadixArk_Qwen3.8-27B-NVFP4_20261016_051207.json",
       "size": 815,
       "sha256": "83194941480b8a652b46206fd9612620f0686a4e21f534aebacca59aa314ebe1"
+    },
+    {
+      "path": "evidence/maxreq-12-bench-20261016T053018Z.json",
+      "size": 93020,
+      "sha256": "208b2e27d4ae3628b2b7f7d2cfeee69e4175f19f86cc1285745a71a869dbd06e"
+    },
+    {
+      "path": "evidence/maxreq-12-server-info-20261016T052607Z.json",
+      "size": 49859,
+      "sha256": "97f1ec722b42b6ddc666b9cc45d47284249dcab7243ac85b5c4a064d812e6bdf"
+    },
+    {
+      "path": "evidence/maxreq-12-smoke-20261016T052609Z.json",
+      "size": 1370,
+      "sha256": "2e077c4a7f6a001b89f1fce3277398fcc45c71dd65afea9e631324670e59e9cd"
+    },
+    {
+      "path": "evidence/maxreq-12-vllmbench-20261016T053018Z/benchmark_RadixArk_Qwen3.8-27B-NVFP4_20261016_053101.csv",
+      "size": 1199,
+      "sha256": "55dfad58ea8d53b946d296d54b6d5d5679239faaa23740311570df86dfada653"
+    },
+    {
+      "path": "evidence/maxreq-12-vllmbench-20261016T053018Z/benchmark_RadixArk_Qwen3.8-27B-NVFP4_20261016_053101.json",
+      "size": 4419,
+      "sha256": "42f8038b3ae1e804abd4a3569361a9a5b885705ffd511d94cdab19d5107796d9"
+    },
+    {
+      "path": "evidence/maxreq-12-vllmbench-20261016T053018Z/result_NVIDIA_GB10_RadixArk_Qwen3.8-27B-NVFP4_20261016_053101.json",
+      "size": 815,
+      "sha256": "65f0ab8a157fa8e927e0e45c02d7f40601cb0c2e09f46bbad678fc6655b75565"
     },
     {
       "path": "evidence/mem-90-bench-20261016T052100Z.json",

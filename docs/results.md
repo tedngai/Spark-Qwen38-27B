@@ -30,6 +30,33 @@ the suspect 2026-08-16 legacy run. Ranking decisions use the A/B harness
 (`tests/benchmark.py`, raw `/generate` forced decodes — counts every token);
 the suite is kept only as a consistent, content-only cross-check.
 
+### maxreq-12 — 2026-10-16
+
+- Config: baseline + `MAX_RUNNING_REQUESTS=12`.
+- Cold start ready in 246 s; 0 failures/retractions — the cap that OOM'd the
+  host at 512K context is safe at 262K.
+- KV pool: 839,850 slots (−13% vs baseline — larger per-request buffers).
+- A/B bench (`evidence/maxreq-12-bench-20261016T053018Z.json`):
+
+| scenario | agg | dec p50 | ttft p50 | accept | baseline agg spread |
+|---|---|---|---|---|---|
+| short-c1 | 29.58 | 30.57 | 0.28 s | 3.51 | 30.1–36.6 |
+| short-c4 | 70.48 | 36.34 | 0.95 s | 4.65 | 101.6–122.7 ← below band |
+| short-c8 | 123.87 | 26.61 | 1.72 s | 4.89 | 137.9–144.5 ← below band |
+| short-c12 | **179.50** | 24.94 | 1.84 s | 5.44 | 144.5–151.1 ← above band |
+| short-c16 | 138.51 | 21.25 | **1.82 s** | 4.54 | 141.8–154.6 (baseline ttft 7.4–10.7 s) |
+| long-c1 | 20.94 | 34.65 | 4.83 s | 4.06 | 21.1–22.9 |
+| long-c8 | 41.05 | 9.87 | 22.76 s | 5.18 | 37.4–38.3 ← top of band |
+| long-c12 | 39.35 | 6.90 | 31.97 s | 5.20 | 39.5–40.4 |
+
+- Read: **workload-shaped trade.** At c12+ it's strictly better (no queue:
+  c16 TTFT 1.8 s vs ~10 s; c12 aggregate 179.5, best seen; c12/c16 keep
+  accelerating instead of queueing). At exactly c8 it's below the cap-8
+  baseline (123.9 vs 137.9–144.5). Decode per user drops under load
+  (21–25 vs 26–30). If the workload can exceed 8 concurrent users, this is
+  the better engine shape; otherwise baseline's cap 8 wins per-user speed.
+- Strong candidate to combine with `mamba-bf16` (see combo run, below).
+
 ### mem-90 — 2026-10-16
 
 - Config: baseline + `MEM_FRACTION=0.90`.

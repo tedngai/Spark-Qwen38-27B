@@ -1,0 +1,42 @@
+{
+  "submitted_at": "2026-10-16T05:31:01.302642+00:00",
+  "hardware": {
+    "gpu": "NVIDIA GB10",
+    "gpu_count": 1,
+    "vram_gb": null,
+    "cpu": "Unknown",
+    "ram_gb": null
+  },
+  "software": {
+    "model": "RadixArk/Qwen3.8-27B-NVFP4",
+    "vllm_version": null,
+    "quantization": "FP16/BF16",
+    "tensor_parallel": null
+  },
+  "results": {
+    "peak_throughput_tps": 0.4,
+    "best_latency_s": 9.021,
+    "best_ttft_ms": 645.4,
+    "cost_per_1m_tokens_usd": null
+  },
+  "test_matrix": {
+    "context_lengths": [
+      32000
+    ],
+    "concurrency_levels": [
+      1,
+      4
+    ],
+    "num_tests": 2
+  },
+  "score": {
+    "overall": 1996,
+    "grade": "F",
+    "throughput": 2,
+    "latency": 979,
+    "efficiency": 5,
+    "energy": 5000,
+    "consistency": 10000
+  },
+  "fingerprint": "a223b806f6f8"
+}
