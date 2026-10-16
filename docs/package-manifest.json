@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-16T04:58:35Z",
+  "generated_at": "2026-10-16T04:58:57Z",
   "repository": "Qwen3.8-27B-Deployment",
   "file_count": 57,
   "files": [
@@ -35,8 +35,8 @@
     },
     {
       "path": "configs/docker/candidates/README.md",
-      "size": 1838,
-      "sha256": "cf1bc49af4163439c17c94398ed2f97d590c6d9fda50c0dc7d471476f3b07e7b"
+      "size": 1910,
+      "sha256": "bea3ed0cabd246436b6e9f13eb0ba7aec26eef787d5deb4355c4e2aaed845fe1"
     },
     {
       "path": "configs/docker/candidates/baseline.env",
@@ -50,8 +50,8 @@
     },
     {
       "path": "configs/docker/candidates/dflash-d8.env",
-      "size": 724,
-      "sha256": "d55b29bca2e8722c0f7da3c2b57f47942a3c9c370d9ca277085faeb6e514eb4d"
+      "size": 826,
+      "sha256": "9ed69dfa3b1ffb17ba2231235c89b61a4d1a2476f9c3f6072e659ffc9da91206"
     },
     {
       "path": "configs/docker/candidates/mamba-bf16.env",
@@ -70,8 +70,8 @@
     },
     {
       "path": "configs/docker/candidates/mtp-flash.env",
-      "size": 681,
-      "sha256": "9bcdcd282f4ac0c805cdb35f45e1d5b71027364cf0e7e356a40903a1488b15e7"
+      "size": 783,
+      "sha256": "3b38526fc13b068986775e0f625fbcc98e09ad45b4bd50de9f5cab39302771aa"
     },
     {
       "path": "configs/docker/candidates/no-spec.env",

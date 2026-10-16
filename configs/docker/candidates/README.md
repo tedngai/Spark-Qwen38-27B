@@ -16,7 +16,7 @@ Tunable keys (all optional):
 | `CHUNKED_PREFILL` | 2048 | `--chunked-prefill-size` |
 | `MAMBA_SSM_DTYPE` | float32 | GDN state pool dtype |
 | `MAMBA_FULL_MEMORY_RATIO` | 11.01 | GDN state memory sizing |
-| `MAMBA_RADIX_CACHE_STRATEGY` | extra_buffer_lazy | |
+| `MAMBA_RADIX_CACHE_STRATEGY` | extra_buffer_lazy | DFLASH requires `extra_buffer` (rejects `extra_buffer_lazy` at startup) |
 | `MAX_MAMBA_CACHE_SIZE` | engine default | e.g. `MAX_RUNNING_REQUESTS*8` |
 | `DISABLE_PREFILL_CUDA_GRAPH` | 0 | recipe sets 1; baseline runs 0 |
 | `SPEC_ALGORITHM` | DSPARK | `DSPARK` \| `DFLASH` \| `EAGLE` \| empty (off) |
