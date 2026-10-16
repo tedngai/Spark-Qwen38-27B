@@ -30,6 +30,21 @@ the suspect 2026-08-16 legacy run. Ranking decisions use the A/B harness
 (`tests/benchmark.py`, raw `/generate` forced decodes — counts every token);
 the suite is kept only as a consistent, content-only cross-check.
 
+### mtp-flash / dflash-d8 — 2026-10-16 — blocked by image (DFLASH unsupported)
+
+- Startup fails while loading the DFlash 2 draft: `DFlash2DraftModel` is not
+  registered in `lmsysorg/sglang:qwen38-27b` (the image has
+  `DFlashDraftModel`/`DFlashLagunaForCausalLM` and the DSpark classes only;
+  `incoai/Qwen3.8-27B-DFlash2` declares `architectures: ["DFlash2DraftModel"]`
+  with no `auto_map`). The first error hit —
+  `extra_buffer_lazy unsupported with DFLASH` — was fixed before this
+  (`extra_buffer` now set in both profiles).
+- Evidence: `evidence/mtp-flash-unsupported-20261016.md`. Both profiles are
+  kept and marked for a future DFlash2-capable image.
+- Follow-up: the RTX PRO 6000 node ran DFLASH on `lmsysorg/sglang:latest`
+  (v0.5.21). Trying an equivalent image on GB10 is a separate experiment and
+  re-opens the whole sweep (new runtime baseline).
+
 ### dspark-d4 — 2026-10-16 — invalid (engine constraint)
 
 - DSPARK requires `speculative_num_draft_tokens == gamma + 1 == 8`; the d4

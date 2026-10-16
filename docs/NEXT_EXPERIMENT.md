@@ -7,25 +7,27 @@ the evidence. One profile at a time, cold start, hand-invoked via
 ## Prepared profiles (configs/docker/candidates/)
 
 `mtp-flash` replaced `mtp-eagle` on 2026-10-16 (user request): DFLASH
-draft-model speculation instead of the in-checkpoint EAGLE MTP head.
+draft-model speculation instead of the in-checkpoint EAGLE MTP head. DFLASH
+turned out to be unsupported on the current image — see the row statuses
+below and `docs/results.md`.
 
 | # | Profile | Changes vs baseline | Hypothesis to test |
 |---|---|---|---|
 | 0 | `baseline` | — | Reference point (validated config; first sweep entry) |
 | 1 | `no-spec` | DSPARK off | Quantify the speedup DSPARK buys; how much memory/PPL it costs |
-| 2 | `dflash-d8` | DFLASH, 8 draft tokens — identical surroundings to `mtp-flash` (d4) | Completes the DFLASH draft-token A/B (the old `dspark-d4` attempt was invalid — DSPARK pins 8; see `docs/results.md`) |
+| 2 | `dflash-d8` | DFLASH, 8 draft tokens — **blocked: image lacks `DFlash2DraftModel`** | Completes the DFLASH draft A/B once a DFlash2-capable image exists |
 | 3 | `mamba-bf16` | bf16 GDN pool, ratio 4.21, cache 64 | ~20 GB back to KV cache; decode-speed cost? |
 | 4 | `mem-90` | mem fraction 0.85→0.90 | Bigger KV pool/graph room; watch unified-memory headroom |
 | 5 | `maxreq-12` | admission 8→12 | Does 12 fit and improve aggregate throughput? |
 | 6 | `chunk-8192` | chunked prefill 2048→8192 | Long-prompt TTFT vs decode interference |
-| 7 | `mtp-flash` | DFLASH, draft `incoai/Qwen3.8-27B-DFlash2`, 4 draft tokens, on the old MTP-era settings (chunk 8192, no prefill graph, bf16, mem 0.92, c12) | DFLASH vs DSPARK acceptance/speed (the RTX PRO 6000 node's chosen algorithm) |
+| 7 | `mtp-flash` | DFLASH, draft `incoai/Qwen3.8-27B-DFlash2`, 4 draft tokens, mtp-era settings — **blocked: image lacks `DFlash2DraftModel`** | DFLASH vs DSPARK once a DFlash2-capable image exists |
 | 8 | `triton-attn` | triton attention everywhere | Control run for FlashInfer failures (not a speed candidate) |
 | 9 | `512k-yarn` | 512K context, YaRN, mem 0.95, c12, EAGLE 3/1/4 (historic) | **Risky.** Reproduces the historic OOM; only with a safer variant in mind |
 
 ## Suggested order
 
-0 → 1 → 7 → 2 (DFLASH d4 then d8 back-to-back) → 3 → 4 → 5 → 6 (stop and
-reassess if a run fails; 8 is on-demand; 9 last, deliberately).
+0 → 1 → 3 → 4 → 5 → 6 (profiles 2/7 are blocked on this image —
+`DFlash2DraftModel`; 8 is on-demand; 9 last, deliberately).
 
 Ideas after the first pass (combine winners only once each is understood):
 

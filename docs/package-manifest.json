@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-10-16T04:58:57Z",
+  "generated_at": "2026-10-16T05:03:01Z",
   "repository": "Qwen3.8-27B-Deployment",
-  "file_count": 57,
+  "file_count": 58,
   "files": [
     {
       "path": ".env.example",
@@ -50,8 +50,8 @@
     },
     {
       "path": "configs/docker/candidates/dflash-d8.env",
-      "size": 826,
-      "sha256": "9ed69dfa3b1ffb17ba2231235c89b61a4d1a2476f9c3f6072e659ffc9da91206"
+      "size": 1091,
+      "sha256": "63335ff10add61b1b208ad90e84cd493d671c95be7a8effbb0f0fea85129392b"
     },
     {
       "path": "configs/docker/candidates/mamba-bf16.env",
@@ -70,8 +70,8 @@
     },
     {
       "path": "configs/docker/candidates/mtp-flash.env",
-      "size": 783,
-      "sha256": "3b38526fc13b068986775e0f625fbcc98e09ad45b4bd50de9f5cab39302771aa"
+      "size": 1048,
+      "sha256": "4bde360ee5e519d846129c2cc419af1f92550acf150d7de139aa148e8129c28c"
     },
     {
       "path": "configs/docker/candidates/no-spec.env",
@@ -105,8 +105,8 @@
     },
     {
       "path": "docs/NEXT_EXPERIMENT.md",
-      "size": 3316,
-      "sha256": "b67db634dc8ce4c6bbd66ae8c6b600af9ec0c9787a10cea1a45f3b9fcea8ccc7"
+      "size": 3323,
+      "sha256": "ac4974ffde76cac9fdff2f8a41b3bdb662c6b17abd6e387de8ab1608b6a5c165"
     },
     {
       "path": "docs/TESTING.md",
@@ -115,8 +115,8 @@
     },
     {
       "path": "docs/results.md",
-      "size": 6347,
-      "sha256": "7bc03a6bd33ea6881174d1450f8239d8544780733a7d46c244455baf8dd81cc1"
+      "size": 7220,
+      "sha256": "6bea8868b966c61821d598084b0f33eaf14e21201cbc6d4f5377e79bd41ddf15"
     },
     {
       "path": "evidence/README.md",
@@ -207,6 +207,11 @@
       "path": "evidence/legacy-20260816/result_NVIDIA_GB10_RadixArk_Qwen3.8-27B-NVFP4_20260816_010833.json",
       "size": 861,
       "sha256": "f94e53c40b065d5f5f5471e026189211e4d5fcc36b1e046f1e892607028e1bbd"
+    },
+    {
+      "path": "evidence/mtp-flash-unsupported-20261016.md",
+      "size": 1854,
+      "sha256": "c9335deb907fa0dbe22f1226e9fde54b3d80344378d36822ae3515ad2ca6af72"
     },
     {
       "path": "evidence/no-spec-bench-20261016T044723Z.json",
