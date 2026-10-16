@@ -30,6 +30,27 @@ the suspect 2026-08-16 legacy run. Ranking decisions use the A/B harness
 (`tests/benchmark.py`, raw `/generate` forced decodes — counts every token);
 the suite is kept only as a consistent, content-only cross-check.
 
+### no-spec — 2026-10-16
+
+- Config: baseline minus speculative decoding (`SPEC_ALGORITHM=`).
+- Cold start ready in 202 s; no errors; `accept=None` throughout (expected).
+- A/B bench (`evidence/no-spec-bench-20261016T044723Z.json`):
+
+| scenario | agg tok/s | decode p50 | ttft p50 | accept | fails | retr |
+|---|---|---|---|---|---|---|
+| short-c1 | 12.45 | 12.61 | 0.25 s | – | 0 | 0 |
+| short-c4 | 45.05 | 11.56 | 0.58 s | – | 0 | 0 |
+| short-c8 | 45.05 | 10.92 | 1.36 s | – | 0 | 0 |
+| short-c12 | 64.20 | 10.98 | 1.12 s | – | 0 | 0 |
+| short-c16 | 58.03 | 10.90 | 25.44 s | – | 0 | 0 |
+| long-c1 | 10.02 | 12.30 | 4.74 s | – | 0 | 0 |
+| long-c8 | 24.26 | 6.95 | 21.75 s | – | 0 | 0 |
+| long-c12 | 28.70 | 7.06 | 30.81 s | – | 0 | 0 |
+
+- Verdict: DSPARK is worth **~2.5–3.3×** decode (p50 ~11–12.6 tok/s here vs
+  ~25–38 baseline) and ~3× aggregate (c8: 45 vs 144). No-spec is rejected as
+  a speed config; keep as a control for spec-decode questions.
+
 ### baseline — 2026-10-16
 
 - Config: `configs/docker/candidates/baseline.env` (DSPARK 4 draft tokens,

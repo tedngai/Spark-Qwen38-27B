@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-10-16T04:36:31Z",
+  "generated_at": "2026-10-16T04:48:36Z",
   "repository": "Qwen3.8-27B-Deployment",
-  "file_count": 44,
+  "file_count": 50,
   "files": [
     {
       "path": ".env.example",
@@ -115,8 +115,8 @@
     },
     {
       "path": "docs/results.md",
-      "size": 3587,
-      "sha256": "71ce40f6e96d55bc3ce057a41b1bb1f10efce00e89ce414803d393edc6c3ff8b"
+      "size": 4568,
+      "sha256": "eb0c95b6624cbfd504649cb25fa3c1ec6305a0f1b893e578cbc5d135a9e1644b"
     },
     {
       "path": "evidence/README.md",
@@ -172,6 +172,36 @@
       "path": "evidence/legacy-20260816/result_NVIDIA_GB10_RadixArk_Qwen3.8-27B-NVFP4_20260816_010833.json",
       "size": 861,
       "sha256": "f94e53c40b065d5f5f5471e026189211e4d5fcc36b1e046f1e892607028e1bbd"
+    },
+    {
+      "path": "evidence/no-spec-bench-20261016T044723Z.json",
+      "size": 91036,
+      "sha256": "67e81c1f66df9db01e746c8aee0512f86aa8dac7dc5d81af28bebfd2d5cac93e"
+    },
+    {
+      "path": "evidence/no-spec-server-info-20261016T043954Z.json",
+      "size": 49107,
+      "sha256": "0be3cc834c3d617ef9c4f939dbede60c5b67ce56d9c780e3d3dea1dd3b0b486e"
+    },
+    {
+      "path": "evidence/no-spec-smoke-20261016T043958Z.json",
+      "size": 1313,
+      "sha256": "a387957358d72884959a46dea348b66d653586d528b974aa31aff0f60fa22950"
+    },
+    {
+      "path": "evidence/no-spec-vllmbench-20261016T044723Z/benchmark_RadixArk_Qwen3.8-27B-NVFP4_20261016_044822.csv",
+      "size": 1209,
+      "sha256": "076c24f7337c12919178ace371880a59cbd08cc7d9cc5258d90648076d62a56e"
+    },
+    {
+      "path": "evidence/no-spec-vllmbench-20261016T044723Z/benchmark_RadixArk_Qwen3.8-27B-NVFP4_20261016_044822.json",
+      "size": 4429,
+      "sha256": "fbe74e5444ed319f740086c9a7dbc0eff9aaceea02e3d8b577b3ba9918782523"
+    },
+    {
+      "path": "evidence/no-spec-vllmbench-20261016T044723Z/result_NVIDIA_GB10_RadixArk_Qwen3.8-27B-NVFP4_20261016_044822.json",
+      "size": 814,
+      "sha256": "0aa2658330f531afc93156e51457ff8ce119b291198ee3f7c472d2a98ee76ca5"
     },
     {
       "path": "evidence/preflight-bench-20261016T041836Z.json",
