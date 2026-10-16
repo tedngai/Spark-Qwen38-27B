@@ -30,6 +30,30 @@ the suspect 2026-08-16 legacy run. Ranking decisions use the A/B harness
 (`tests/benchmark.py`, raw `/generate` forced decodes — counts every token);
 the suite is kept only as a consistent, content-only cross-check.
 
+### combo-bf16-c12 — 2026-10-16 (first pass)
+
+- Config: `mamba-bf16` + `MAX_RUNNING_REQUESTS=12` (bf16 GDN pool, ratio
+  4.21, cache 96; everything else baseline).
+- Cold start ready in 256 s; 0 failures/retractions.
+- **KV pool: 1,381,531 slots (+43.6% vs baseline).**
+- A/B bench (`evidence/combo-bf16-c12-bench-20261016T055035Z.json`):
+
+| scenario | agg | dec p50 | ttft p50 | accept | best comparable |
+|---|---|---|---|---|---|
+| short-c1 | 30.16 | 31.17 | 0.27 s | 3.46 | baseline band |
+| short-c4 | 93.45 | 34.22 | 1.39 s | 4.39 | bottom of noisy band (same dip in mamba-bf16/maxreq-12) |
+| short-c8 | 147.52 | 37.28 | 1.56 s | 5.49 | mamba-bf16 154.2 / baseline ≤144.5 |
+| short-c12 | 146.78 | 30.46 | 1.80 s | 4.81 | maxreq-12 179.5 (single sample) |
+| short-c16 | **205.19** | 27.37 | **1.73 s** | 4.64 | best of sweep (baseline 141.8–154.6, TTFT 6.9–10.7 s) |
+| long-c1 | 22.65 | 39.60 | 4.83 s | 4.49 | baseline band |
+| long-c8 | 39.22 | 9.24 | 22.78 s | 4.69 | top of band (maxreq-12 41.05) |
+| long-c12 | 37.93 | 7.61 | 32.07 s | 5.23 | slightly below band |
+
+- Read: strongest profile of the first pass. Best-ever c16 (205.2 tok/s with
+  no queue), c8 at/above baseline with bf16-pool decode, long prompts near the
+  top of band, +44% KV capacity. The c4 soft spot is shared with its parents.
+  Repeat run follows to confirm before promoting over baseline.
+
 ### chunk-8192 — 2026-10-16
 
 - Config: baseline + `CHUNKED_PREFILL=8192`.

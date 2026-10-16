@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-10-16T05:42:13Z",
+  "generated_at": "2026-10-16T05:51:42Z",
   "repository": "Qwen3.8-27B-Deployment",
-  "file_count": 83,
+  "file_count": 89,
   "files": [
     {
       "path": ".env.example",
@@ -120,8 +120,8 @@
     },
     {
       "path": "docs/results.md",
-      "size": 12656,
-      "sha256": "bb20fa07db13da543af654070a28fdfb91dc331f9db578f02913b1b05cc17298"
+      "size": 14039,
+      "sha256": "a20b746f42ff44de8c103e3ab97cddb415f593d6b7da7f8397536b25545a6c7c"
     },
     {
       "path": "evidence/README.md",
@@ -192,6 +192,36 @@
       "path": "evidence/chunk-8192-vllmbench-20261016T054110Z/result_NVIDIA_GB10_RadixArk_Qwen3.8-27B-NVFP4_20261016_054156.json",
       "size": 815,
       "sha256": "4040a0ca700a0fc41e783c4b7ce792684cd1ff196ac50712e8e82e47fc7471c3"
+    },
+    {
+      "path": "evidence/combo-bf16-c12-bench-20261016T055035Z.json",
+      "size": 93020,
+      "sha256": "4a3a5255a0a7f0274086c396d96d83b50b96ff7dae208782f254fbec19a99727"
+    },
+    {
+      "path": "evidence/combo-bf16-c12-server-info-20261016T054631Z.json",
+      "size": 49916,
+      "sha256": "3cd08f99f9b24fb0282fddee323a595c1b7056e70c56f8481aa7447d4c99f05b"
+    },
+    {
+      "path": "evidence/combo-bf16-c12-smoke-20261016T054633Z.json",
+      "size": 1351,
+      "sha256": "7ca8e29f7632c014b493b3e90a69812bb281e8a9736ffa7d6aee5b977f49e52f"
+    },
+    {
+      "path": "evidence/combo-bf16-c12-vllmbench-20261016T055035Z/benchmark_RadixArk_Qwen3.8-27B-NVFP4_20261016_055117.csv",
+      "size": 1195,
+      "sha256": "712703745322dffa2983c95f2c67462aac2e33c01c3ec43b24d1e1c1711846ac"
+    },
+    {
+      "path": "evidence/combo-bf16-c12-vllmbench-20261016T055035Z/benchmark_RadixArk_Qwen3.8-27B-NVFP4_20261016_055117.json",
+      "size": 4414,
+      "sha256": "6e13a8b6314fe096621228a47e58181808cd4686cdaf25e291d256c45298d33a"
+    },
+    {
+      "path": "evidence/combo-bf16-c12-vllmbench-20261016T055035Z/result_NVIDIA_GB10_RadixArk_Qwen3.8-27B-NVFP4_20261016_055117.json",
+      "size": 816,
+      "sha256": "ab438f84196018872ea45d4c512beecd62665ab49cf5a3296aa817a49e9e9d98"
     },
     {
       "path": "evidence/dspark-d4-invalid-20261016.md",
