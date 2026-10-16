@@ -30,6 +30,29 @@ the suspect 2026-08-16 legacy run. Ranking decisions use the A/B harness
 (`tests/benchmark.py`, raw `/generate` forced decodes — counts every token);
 the suite is kept only as a consistent, content-only cross-check.
 
+### mem-90 — 2026-10-16
+
+- Config: baseline + `MEM_FRACTION=0.90`.
+- Cold start ready in 256 s; 0 failures/retractions.
+- **KV pool: 1,063,119 slots (+10.5% vs baseline 962,380).**
+- A/B bench (`evidence/mem-90-bench-20261016T052100Z.json`):
+
+| scenario | agg | dec p50 | ttft p50 | accept | baseline agg spread |
+|---|---|---|---|---|---|
+| short-c1 | 36.17 | 37.66 | 0.28 s | 4.34 | 30.1–36.6 |
+| short-c4 | 75.24 | 35.06 | 0.95 s | 4.53 | 101.6–122.7 ← below band |
+| short-c8 | 124.62 | 27.92 | 1.45 s | 4.95 | 137.9–144.5 ← below band |
+| short-c12 | 163.44 | 29.42 | 1.17 s | 5.58 | 144.5–151.1 ← above band |
+| short-c16 | 145.13 | 26.03 | 10.67 s | 4.72 | 141.8–154.6 |
+| long-c1 | 22.53 | 39.46 | 4.87 s | 4.66 | 21.1–22.9 |
+| long-c8 | 37.10 | 11.12 | 22.46 s | 4.58 | 37.4–38.3 |
+| long-c12 | 39.89 | 11.49 | 31.66 s | 5.04 | 39.5–40.4 |
+
+- Read: mixed — c4/c8 aggregates below the band, c12 above it; no net speed
+  win, +10.5% capacity. Dominated by `mamba-bf16` (which looks faster at c8
+  *and* adds +55% capacity). Revisit only as a combination knob
+  (bf16 pool + 0.90) after the first pass.
+
 ### mamba-bf16 — 2026-10-16
 
 - Config: baseline + bf16 GDN pool (`MAMBA_SSM_DTYPE=bfloat16`,
