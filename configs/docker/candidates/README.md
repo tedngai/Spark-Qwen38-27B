@@ -22,7 +22,7 @@ Tunable keys (all optional):
 | `SPEC_ALGORITHM` | DSPARK | `DSPARK` \| `DFLASH` \| `EAGLE` \| empty (off) |
 | `SPEC_DRAFT_MODEL` | DSpark checkpoint | DSPARK/DFLASH only |
 | `SPEC_DRAFT_ATTENTION_BACKEND` | flashinfer | DSPARK only (empty = engine default) |
-| `SPEC_NUM_STEPS`, `SPEC_EAGLE_TOPK`, `SPEC_NUM_DRAFT_TOKENS` | engine defaults | EAGLE needs the first two |
+| `SPEC_NUM_STEPS`, `SPEC_EAGLE_TOPK`, `SPEC_NUM_DRAFT_TOKENS` | engine defaults | EAGLE needs the first two; DSPARK requires exactly 8 (= gamma+1); DFLASH accepts other block sizes |
 | `CONTEXT_LENGTH`, `YARN` | 262144 / 0 | >262144 requires `YARN=1` |
 
 Rules:

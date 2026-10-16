@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-10-16T04:57:58Z",
+  "generated_at": "2026-10-16T04:58:35Z",
   "repository": "Qwen3.8-27B-Deployment",
-  "file_count": 56,
+  "file_count": 57,
   "files": [
     {
       "path": ".env.example",
@@ -35,8 +35,8 @@
     },
     {
       "path": "configs/docker/candidates/README.md",
-      "size": 1765,
-      "sha256": "ff8ef4c9ed7d927977a67f422b062df958a87d22c0de9de4b9baa827b019f0ae"
+      "size": 1838,
+      "sha256": "cf1bc49af4163439c17c94398ed2f97d590c6d9fda50c0dc7d471476f3b07e7b"
     },
     {
       "path": "configs/docker/candidates/baseline.env",
@@ -49,9 +49,9 @@
       "sha256": "4999abca4a4f9a681df819c47d733ad27714285933055fe116b6ff6f19dfcf48"
     },
     {
-      "path": "configs/docker/candidates/dspark-d4.env",
-      "size": 465,
-      "sha256": "3c2034d04ef3a10cef6f10be1cccde4928f3f4f1176424dd8f519582a973071e"
+      "path": "configs/docker/candidates/dflash-d8.env",
+      "size": 724,
+      "sha256": "d55b29bca2e8722c0f7da3c2b57f47942a3c9c370d9ca277085faeb6e514eb4d"
     },
     {
       "path": "configs/docker/candidates/mamba-bf16.env",
@@ -105,8 +105,8 @@
     },
     {
       "path": "docs/NEXT_EXPERIMENT.md",
-      "size": 3313,
-      "sha256": "6834e78191cf92e2ba02a24f295dd3b47e024f7873117517702b9cbabd7a9769"
+      "size": 3316,
+      "sha256": "b67db634dc8ce4c6bbd66ae8c6b600af9ec0c9787a10cea1a45f3b9fcea8ccc7"
     },
     {
       "path": "docs/TESTING.md",
@@ -115,8 +115,8 @@
     },
     {
       "path": "docs/results.md",
-      "size": 5927,
-      "sha256": "73ab65e3f3bb6fa42366b6b283d37906804ea1b8fe0d28c39aeca1d5706866a6"
+      "size": 6347,
+      "sha256": "7bc03a6bd33ea6881174d1450f8239d8544780733a7d46c244455baf8dd81cc1"
     },
     {
       "path": "evidence/README.md",
@@ -157,6 +157,11 @@
       "path": "evidence/baseline-vllmbench-20261016T043511Z/result_NVIDIA_GB10_RadixArk_Qwen3.8-27B-NVFP4_20261016_043553.json",
       "size": 816,
       "sha256": "9b5d75fb45eac832dc335a9e22371266917ba7aeef74431a03356477dd9694dd"
+    },
+    {
+      "path": "evidence/dspark-d4-invalid-20261016.md",
+      "size": 820,
+      "sha256": "221c613fae2b0125a6193cfc46c0618bb45e7ecbb1fc1746bf2d1645038609d1"
     },
     {
       "path": "evidence/dspark-d8-bench-20261016T045635Z.json",

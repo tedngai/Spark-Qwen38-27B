@@ -30,6 +30,15 @@ the suspect 2026-08-16 legacy run. Ranking decisions use the A/B harness
 (`tests/benchmark.py`, raw `/generate` forced decodes — counts every token);
 the suite is kept only as a consistent, content-only cross-check.
 
+### dspark-d4 — 2026-10-16 — invalid (engine constraint)
+
+- DSPARK requires `speculative_num_draft_tokens == gamma + 1 == 8`; the d4
+  variant cannot start (`ValueError` at startup). See
+  `evidence/dspark-d4-invalid-20261016.md`.
+- Consequence: DSPARK's draft-token count is fixed at 8 on this build; the
+  slot was repurposed to `dflash-d8` (DFLASH d8), so the draft-token A/B is
+  done inside the DFLASH family.
+
 ### dspark-d8 — 2026-10-16 — repeatability check, not a variant
 
 - Discovery: DSpark's default `--speculative-num-draft-tokens` is **8**, so

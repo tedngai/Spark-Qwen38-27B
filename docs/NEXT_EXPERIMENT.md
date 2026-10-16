@@ -13,7 +13,7 @@ draft-model speculation instead of the in-checkpoint EAGLE MTP head.
 |---|---|---|---|
 | 0 | `baseline` | — | Reference point (validated config; first sweep entry) |
 | 1 | `no-spec` | DSPARK off | Quantify the speedup DSPARK buys; how much memory/PPL it costs |
-| 2 | `dspark-d4` | DSPARK with 4 draft tokens (engine default is 8; the old `dspark-d8` profile was identical to baseline and stands as a repeatability run) | Fewer draft tokens: less draft/verify overhead under load; accept length vs speed |
+| 2 | `dflash-d8` | DFLASH, 8 draft tokens — identical surroundings to `mtp-flash` (d4) | Completes the DFLASH draft-token A/B (the old `dspark-d4` attempt was invalid — DSPARK pins 8; see `docs/results.md`) |
 | 3 | `mamba-bf16` | bf16 GDN pool, ratio 4.21, cache 64 | ~20 GB back to KV cache; decode-speed cost? |
 | 4 | `mem-90` | mem fraction 0.85→0.90 | Bigger KV pool/graph room; watch unified-memory headroom |
 | 5 | `maxreq-12` | admission 8→12 | Does 12 fit and improve aggregate throughput? |
@@ -24,8 +24,8 @@ draft-model speculation instead of the in-checkpoint EAGLE MTP head.
 
 ## Suggested order
 
-0 → 1 → 2 → 7 → 3 → 4 → 5 → 6 (stop and reassess if a run fails; 8 is
-on-demand; 9 last, deliberately).
+0 → 1 → 7 → 2 (DFLASH d4 then d8 back-to-back) → 3 → 4 → 5 → 6 (stop and
+reassess if a run fails; 8 is on-demand; 9 last, deliberately).
 
 Ideas after the first pass (combine winners only once each is understood):
 
