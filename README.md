@@ -14,9 +14,13 @@ server.
 
 ## Latest recorded configuration
 
-The latest validated service snapshot is
-`configs/docker/candidates/baseline.env` (launcher:
-`configs/docker/run_qwen38_sglang.sh`).
+The recommended profile after the 2026-10-16 first sweep pass is
+`configs/docker/candidates/combo-bf16-c12.env` (launcher:
+`./configs/docker/run_qwen38_sglang.sh combo-bf16-c12`). It keeps the
+baseline's DSPARK/flashinfer/262K setup and changes only the GDN state pool
+and the admission cap; `baseline` remains the validated fallback and
+`mamba-bf16` the runner-up for ≤8-user workloads. Full comparison:
+`docs/results.md`.
 
 | Setting | Recorded value |
 | --- | --- |
@@ -25,29 +29,33 @@ The latest validated service snapshot is
 | Runtime | Docker; container `qwen3.8-27b-nvfp4-sglang`, host network, port **8000**, `--restart no`, manual starts only |
 | Model | `RadixArk/Qwen3.8-27B-NVFP4` (~16.5 GB, NVFP4 W4A4 + FP8 projections, VL, hybrid GDN/attention, 262K context) |
 | Speculative decoding | **DSPARK**, draft `RadixArk/Qwen3.8-27B-DSpark` (draft attention: flashinfer) |
-| KV cache | `fp8_e4m3`; **956,756 token slots** observed in the recorded startup |
+| KV cache | `fp8_e4m3`; **1,381,531 token slots** (combo profile; baseline 962,380; bf16 pool alone reaches 1,490,777) |
 | Attention backend | `flashinfer` (SM121-supported; `trtllm_mla` is SM100-only) |
-| GDN state pool | `--mamba-ssm-dtype float32 --mamba-full-memory-ratio 11.01 --mamba-radix-cache-strategy extra_buffer_lazy` |
+| GDN state pool | `--mamba-ssm-dtype bfloat16 --mamba-full-memory-ratio 4.21 --max-mamba-cache-size 96 --mamba-radix-cache-strategy extra_buffer_lazy` (combo profile) |
 | Static memory fraction | `0.85` |
 | Context | 262,144 tokens (native, no YaRN; `CONTEXT_LENGTH`/`YARN` knobs in `.env`) |
-| Admission | `max_running_requests` **8** (tuning knob; see `docs/NEXT_EXPERIMENT.md`) |
+| Admission | `max_running_requests` **12** (combo profile; baseline 8; queue-free to c16) |
 | API | OpenAI-compatible; `--reasoning-parser qwen3`, `--tool-call-parser qwen3_coder` |
 
 ## What passed on the latest profile
 
-- **Startup:** ready in ~208–213 s on warm caches (weight load ~141 s);
-  no post-ready OOM or runtime error during the recorded checks.
+- **Startup:** ready in ~236–261 s on warm caches (weight load ~141 s;
+  range across the sweep 202–322 s); no post-ready OOM or runtime error in
+  any run.
 - **Interfaces:** `/health` 200, `/v1/models` lists the served model, chat
   completions return with `finish_reason` and reasoning separated into
   `reasoning_content`.
 - **Speculative decoding active:** `/generate` responses carry
-  `spec_accept_length` / acceptance stats; DSpark proposal folded into the
-  draft CUDA graph at startup.
-- **Stability:** the recorded container ran 2+ days (2026-10-14 → packaging)
-  under the excluded legacy restart policy.
-- **Measurement:** the benchmark path (`tests/run_profile.sh`) performs cold
-  start → config capture → smoke → A/B concurrency bench → vllm-benchmark
-  suite, all recorded under `evidence/`.
+  `spec_accept_length` / acceptance stats; DSPARK acceptance ~3.5 (c1) to
+  ~5.5 (c8+).
+- **First sweep pass (2026-10-16):** 9 profiles measured (cold start →
+  capture → smoke → A/B bench → vllm-bench suite each), **0 failures and 0
+  retractions in every scenario**. Winner `combo-bf16-c12`: ≥baseline at
+  c8–c16 (191 tok/s c8, 183 c12, 164–205 c16), no queueing to c16 (TTFT
+  ~1.8 s vs 7–10 s at cap 8), +44% KV capacity — consistent across two runs.
+  Raw evidence: `evidence/`; findings: `docs/results.md`.
+- **Measurement:** the benchmark path is `tests/run_profile.sh`; compare
+  profiles with `python3 tests/compare.py`.
 
 ## Configuration workflow
 
@@ -84,12 +92,18 @@ directly comparable.
   thinking model small output budgets are consumed by `reasoning_content`, so
   suite scores read near-zero even when the engine is healthy. Use the A/B
   harness for ranking (see `docs/results.md`).
+- **DFLASH is not runnable on this image:** DFlash 2 draft checkpoints
+  (`incoai/Qwen3.8-27B-DFlash2`) declare `DFlash2DraftModel`, which
+  `lmsysorg/sglang:qwen38-27b` does not register; DSPARK also pins draft
+  tokens to 8 (no d4 variant). See
+  `evidence/mtp-flash-unsupported-20261016.md`.
 
 ## Not yet validated
 
-- The packed-context/decode trade-offs and the prepared sweep matrix in
-  `docs/NEXT_EXPERIMENT.md` (spec on/off, DSPARK/DFLASH draft-token counts,
-  GDN pool dtype, mem fraction, admission cap, chunked prefill).
+- 512K-context risk profile (`512k-yarn` reproduces the historic OOM; no
+  safer variant run yet) and `triton-attn` (on-demand fallback control).
+- Above-cap admission at 16 (`combo-bf16-c12` at 12 already shows the shape).
+- DFLASH on a DFlash2-capable image (blocked here — see `docs/results.md`).
 - Near-limit context behaviour (largest benchmarked prompt ≈ 16K of 262,144
   tokens).
 - Output-quality regressions across profiles (benchmarks measure speed and

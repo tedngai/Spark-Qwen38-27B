@@ -30,6 +30,31 @@ the suspect 2026-08-16 legacy run. Ranking decisions use the A/B harness
 (`tests/benchmark.py`, raw `/generate` forced decodes — counts every token);
 the suite is kept only as a consistent, content-only cross-check.
 
+## Sweep summary — first pass, 2026-10-16
+
+Recommendation: **`combo-bf16-c12`** (bf16 GDN pool + admission cap 12),
+with `baseline` as the previously validated fallback and `mamba-bf16` as the
+≤8-user runner-up. Every profile ran the full cycle (cold start → capture →
+smoke → A/B bench → suite) with zero failures and zero retractions.
+
+| profile | verdict | why |
+|---|---|---|
+| `combo-bf16-c12` | **promoted** | best c8/c12 aggregate (191/183), queue-free to c16 (TTFT ~1.8 s), best c16, +44% KV (1.38M), long ≈ best; two-run consistent |
+| `mamba-bf16` | runner-up (≤8-user shape) | +55% KV (1.49M); c8 decode p50 37.3–37.8 vs 29.5–33.2 baseline; c12+ still queues (TTFT 7.4–7.8 s) |
+| `maxreq-12` | parent of the winner | queue-free c12+ (c16 TTFT 1.8 s), best single c12 (179.5); soft at exactly c8 |
+| `mem-90` | rejected | mixed speed (c4/c8 below band), +10.5% KV only |
+| `chunk-8192` | rejected | long-prompt TTFT +8–10 s, aggregates below band |
+| `no-spec` | rejected (control) | ~2.5–3.3× slower decode |
+| `dspark-d8`, `preflight` | reference | identical-config repeats define the noise band (±5–22% short agg, worst at c1) |
+| `dspark-d4` | invalid | DSPARK pins draft tokens to 8 |
+| `mtp-flash`, `dflash-d8` | blocked | image lacks `DFlash2DraftModel` |
+
+Noise discipline: differences inside the two identical-config repeat runs
+(`baseline` vs `dspark-d8`) are treated as noise; only the combo/mamba c8+
+gains and the cap-12 TTFT shape clear the band.
+
+Backlog for a second pass: `docs/NEXT_EXPERIMENT.md`.
+
 ### combo-bf16-c12 — 2026-10-16 (first pass)
 
 - Config: `mamba-bf16` + `MAX_RUNNING_REQUESTS=12` (bf16 GDN pool, ratio
@@ -52,7 +77,9 @@ the suite is kept only as a consistent, content-only cross-check.
 - Read: strongest profile of the first pass. Best-ever c16 (205.2 tok/s with
   no queue), c8 at/above baseline with bf16-pool decode, long prompts near the
   top of band, +44% KV capacity. The c4 soft spot is shared with its parents.
-  Repeat run follows to confirm before promoting over baseline.
+- **Repeat run confirmed and promoted** (2026-10-16): c8 191.1, c12 183.2,
+  c16 163.8, long-c8 39.2, long-c12 41.2 — 0 failures. The recommended
+  configuration for multi-user workloads.
 
 ### chunk-8192 — 2026-10-16
 
@@ -149,6 +176,10 @@ the suite is kept only as a consistent, content-only cross-check.
   a small likely-real win under load, plus **+55% KV capacity**. Everything
   else within noise. Candidate to carry forward; pairs naturally with
   `mem-90`/`maxreq-12` (capacity) once validated individually.
+- **Repeat run** (2026-10-16): c8 148.5 (decode p50 37.8), c12 160.5,
+  c16 167.3 (TTFT 7.8 s), long-c8 40.3, long-c12 41.8 — the c8 speed edge
+  over baseline holds in both runs. Remains the ≤8-user runner-up behind
+  `combo-bf16-c12` (which matches it at c8 and removes the c12+ queue).
 
 ### mtp-flash / dflash-d8 — 2026-10-16 — blocked by image (DFLASH unsupported)
 
@@ -197,8 +228,9 @@ the suite is kept only as a consistent, content-only cross-check.
   between runs (worst at c1/c4), decode p50 ±10–22%, long-prompt aggregates
   are stable (±3–8%). **Implication for the sweep: only treat a difference as
   real if it clears this noise band; c1 numbers are the noisiest.**
-- The profile was repurposed to `dspark-d4` (a real variant) after this run;
-  this entry stays as the variance reference.
+- The profile slot was later repurposed twice (`dspark-d4` → invalid;
+  final: `dflash-d8`, blocked pending a DFlash2-capable image); this entry
+  stays as the variance reference.
 
 ### no-spec — 2026-10-16
 

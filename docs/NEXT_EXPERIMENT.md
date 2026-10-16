@@ -1,59 +1,62 @@
-# Next experiments — the config sweep
+# Experiments
 
-Goal: find the best-performing launch configuration on the GB10 and record
-the evidence. One profile at a time, cold start, hand-invoked via
-`tests/run_profile.sh <profile>` (see `docs/TESTING.md`).
+The prepared first-pass sweep ran 2026-10-16 (results: `docs/results.md`).
+This file tracks outcomes and what remains.
 
-## Prepared profiles (configs/docker/candidates/)
+## Completed — first pass (2026-10-16)
 
-`mtp-flash` replaced `mtp-eagle` on 2026-10-16 (user request): DFLASH
-draft-model speculation instead of the in-checkpoint EAGLE MTP head. DFLASH
-turned out to be unsupported on the current image — see the row statuses
-below and `docs/results.md`.
+| profile | outcome |
+|---|---|
+| `baseline` | reference point (DSPARK d8, cap 8, fp32 GDN pool) — kept as fallback |
+| `no-spec` | rejected: ~2.5–3.3× slower decode |
+| `dspark-d8` | identical-config repeat — defines the noise band (short agg ±5–22%) |
+| `dspark-d4` | invalid: DSPARK pins draft tokens to 8 (engine constraint) |
+| `mtp-flash`, `dflash-d8` | blocked: image lacks `DFlash2DraftModel` |
+| `mamba-bf16` | runner-up (≤8-user shape): +55% KV, c8 decode edge; queues at c12+ |
+| `mem-90` | rejected: mixed speed, +10.5% KV only |
+| `maxreq-12` | kept as a parent of the winner (queue-free c12+) |
+| `chunk-8192` | rejected: long-prompt TTFT +8–10 s |
+| `combo-bf16-c12` | **promoted** (recommended config in `README.md`) |
 
-| # | Profile | Changes vs baseline | Hypothesis to test |
-|---|---|---|---|
-| 0 | `baseline` | — | Reference point (validated config; first sweep entry) |
-| 1 | `no-spec` | DSPARK off | Quantify the speedup DSPARK buys; how much memory/PPL it costs |
-| 2 | `dflash-d8` | DFLASH, 8 draft tokens — **blocked: image lacks `DFlash2DraftModel`** | Completes the DFLASH draft A/B once a DFlash2-capable image exists |
-| 3 | `mamba-bf16` | bf16 GDN pool, ratio 4.21, cache 64 | ~20 GB back to KV cache; decode-speed cost? |
-| 4 | `mem-90` | mem fraction 0.85→0.90 | Bigger KV pool/graph room; watch unified-memory headroom |
-| 5 | `maxreq-12` | admission 8→12 | Does 12 fit and improve aggregate throughput? |
-| 6 | `chunk-8192` | chunked prefill 2048→8192 | Long-prompt TTFT vs decode interference |
-| 7 | `mtp-flash` | DFLASH, draft `incoai/Qwen3.8-27B-DFlash2`, 4 draft tokens, mtp-era settings — **blocked: image lacks `DFlash2DraftModel`** | DFLASH vs DSPARK once a DFlash2-capable image exists |
-| 8 | `triton-attn` | triton attention everywhere | Control run for FlashInfer failures (not a speed candidate) |
-| 9 | `512k-yarn` | 512K context, YaRN, mem 0.95, c12, EAGLE 3/1/4 (historic) | **Risky.** Reproduces the historic OOM; only with a safer variant in mind |
+Runtime constraints discovered and recorded: DSPARK draft tokens are fixed at
+8; DFLASH needs `extra_buffer` mamba strategy *and* a DFlash2-capable image.
+Sweep hygiene that mattered: identical-config repeatability runs set the
+noise band — single-run differences inside it were not treated as wins.
 
-## Suggested order
+## Backlog — second pass (rough priority order)
 
-0 → 1 → 3 → 4 → 5 → 6 (profiles 2/7 are blocked on this image —
-`DFlash2DraftModel`; 8 is on-demand; 9 last, deliberately).
-
-Ideas after the first pass (combine winners only once each is understood):
-
-- `mem-90` + `maxreq-12` combined if both hold up individually.
-- `--disable-prefill-cuda-graph` A/B on the DSPARK config (recipe sets it;
-  baseline does not).
-- KV cache dtype comparison (fp8_e4m3 vs bf16) — memory vs quality/latency.
-- Higher `max_running_requests` with the bf16 GDN pool (capacity rebalance).
+1. **`combo16`** — `combo-bf16-c12` variant with `MAX_RUNNING_REQUESTS=16`:
+   does capacity hold (KV shrinks) and does c16–c24 stay queue-free?
+2. **`512k-yarn-safe`** — 512K context with the winning pool +
+   `MEM_FRACTION=0.90` + cap 12; attempt only with the historic OOM failure
+   mode known (reproduce carefully, watch unified memory).
+3. **`combo-mem90`** — combo + `MEM_FRACTION=0.90`: capacity vs stability.
+4. **DFLASH on a newer image** — an image that registers `DFlash2DraftModel`
+   (e.g. the `lmsysorg/sglang:latest` class the RTX node used). A new image
+   is a new runtime baseline: re-check SM121 compatibility first, then re-run
+   the full cycle.
+5. **Output-quality checks** of `combo-bf16-c12` vs `baseline`
+   (spot-check arithmetic/reasoning; the benchmarks cover speed and
+   stability only).
+6. `triton-attn` — control only if FlashInfer misbehaves.
 
 ## Rules
 
-- Cold start per profile; never measure two configs against one running
-  process.
-- Every run goes through `tests/run_profile.sh` (or the individual tests with
-  `--save-dir evidence`) — saved evidence before conclusions.
-- Abort → inspect → retry by hand. No loops, no auto-retries.
-- Record findings in `docs/results.md`; update `README.md`'s status table
-  only when a new profile beats the baseline on the criteria below.
+- One profile at a time, cold start, hand-invoked:
+  `tests/run_profile.sh <profile>` (see `docs/TESTING.md`).
+- Evidence before conclusions; retain failed probes.
+- Only call a difference real if it clears the noise band (see the
+  repeatability entry in `docs/results.md`).
+- Update `docs/results.md` per run; promote in `README.md` only on a clear,
+  repeated win.
 
 ## Ranking criteria (in order)
 
 1. Zero failures/retractions and exact output lengths in `benchmark.py`.
-2. Aggregate tok/s at `short-c8-512x256` (the admission cap).
+2. Aggregate tok/s at `short-c8-512x256`.
 3. Per-request decode tok/s p50 at c1 and c8.
 4. TTFT p50/p90 on long prompts (`long-c8-16384x256`).
-5. Speculative acceptance length (DSPARK/EAGLE efficiency).
-6. KV pool size (`max_total_num_tokens` in server-info evidence) as the
-   context/concurrency capacity tiebreaker.
-7. Stability: no OOM, no swap storm, stable for repeated runs.
+5. Speculative acceptance length.
+6. KV pool size (`max_total_num_tokens` in the capture) as the capacity
+   tiebreaker.
+7. Stability across repeated runs.

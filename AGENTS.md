@@ -52,6 +52,8 @@ documentation. This file is the operating manual for AI agents managing it.
 
 - Endpoint: `http://0.0.0.0:8000/v1` (host network, no auth — trusted
   networks only); container `qwen3.8-27b-nvfp4-sglang`.
+- Recommended profile (first sweep winner, 2026-10-16): `combo-bf16-c12`;
+  fallback: `baseline` (`docs/results.md`).
 - Model: `RadixArk/Qwen3.8-27B-NVFP4`; reasoning parsed into
   `reasoning_content`; thinking models need ≥ ~100 output tokens for content.
 - Useful probes: `curl -s localhost:8000/health`, `/get_server_info`,
