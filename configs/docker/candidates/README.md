@@ -19,9 +19,9 @@ Tunable keys (all optional):
 | `MAMBA_RADIX_CACHE_STRATEGY` | extra_buffer_lazy | |
 | `MAX_MAMBA_CACHE_SIZE` | engine default | e.g. `MAX_RUNNING_REQUESTS*8` |
 | `DISABLE_PREFILL_CUDA_GRAPH` | 0 | recipe sets 1; baseline runs 0 |
-| `SPEC_ALGORITHM` | DSPARK | `DSPARK` \| `EAGLE` \| empty (off) |
-| `SPEC_DRAFT_MODEL` | DSpark checkpoint | DSPARK only |
-| `SPEC_DRAFT_ATTENTION_BACKEND` | flashinfer | DSPARK only |
+| `SPEC_ALGORITHM` | DSPARK | `DSPARK` \| `DFLASH` \| `EAGLE` \| empty (off) |
+| `SPEC_DRAFT_MODEL` | DSpark checkpoint | DSPARK/DFLASH only |
+| `SPEC_DRAFT_ATTENTION_BACKEND` | flashinfer | DSPARK only (empty = engine default) |
 | `SPEC_NUM_STEPS`, `SPEC_EAGLE_TOPK`, `SPEC_NUM_DRAFT_TOKENS` | engine defaults | EAGLE needs the first two |
 | `CONTEXT_LENGTH`, `YARN` | 262144 / 0 | >262144 requires `YARN=1` |
 

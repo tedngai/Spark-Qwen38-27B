@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-16T04:18:42Z",
+  "generated_at": "2026-10-16T04:22:15Z",
   "repository": "Qwen3.8-27B-Deployment",
   "file_count": 37,
   "files": [
@@ -20,8 +20,8 @@
     },
     {
       "path": "README.md",
-      "size": 6746,
-      "sha256": "f31c150d457ce6210001b5342e84f68a9ff115be385d5257e122834762ca298b"
+      "size": 6744,
+      "sha256": "e908601e2ed477058a438c78dcc0e3f3b0b041fd24be95897fd65fecb624242d"
     },
     {
       "path": "configs/docker/README.md",
@@ -35,8 +35,8 @@
     },
     {
       "path": "configs/docker/candidates/README.md",
-      "size": 1721,
-      "sha256": "eac60aa4546c105b89149b0fa5ffee3fb0ffca9e82d25ec51198e810e5b59e44"
+      "size": 1765,
+      "sha256": "ff8ef4c9ed7d927977a67f422b062df958a87d22c0de9de4b9baa827b019f0ae"
     },
     {
       "path": "configs/docker/candidates/baseline.env",
@@ -69,9 +69,9 @@
       "sha256": "509cb6790cb7d9c8915e229f4df26830ba563bb4175b564f7b1bea72488d78ed"
     },
     {
-      "path": "configs/docker/candidates/mtp-eagle.env",
-      "size": 541,
-      "sha256": "691a512832345db1de19a7e2b4def4251dbe5b568fe914065e579fa0affc0f02"
+      "path": "configs/docker/candidates/mtp-flash.env",
+      "size": 681,
+      "sha256": "9bcdcd282f4ac0c805cdb35f45e1d5b71027364cf0e7e356a40903a1488b15e7"
     },
     {
       "path": "configs/docker/candidates/no-spec.env",
@@ -85,13 +85,13 @@
     },
     {
       "path": "configs/docker/prefetch.sh",
-      "size": 2156,
-      "sha256": "1ea1cd14a28a28547960784f30cc58eaf92f01a30995e5c33efb22ffeae76beb"
+      "size": 2307,
+      "sha256": "5d9d9f735e566a50f7861094a44546181ef23274edaecc302bd1265e39c3f1f4"
     },
     {
       "path": "configs/docker/run_qwen38_sglang.sh",
-      "size": 9816,
-      "sha256": "a057e89a0c7f737e055bb297814a8612ad73f671067d14ee34cfd83426e32212"
+      "size": 9966,
+      "sha256": "92b7c0adc3218c747580264aabfa9dd2963e63a95412596dc5cac15591ed1acf"
     },
     {
       "path": "configs/docker/stop.sh",
@@ -105,8 +105,8 @@
     },
     {
       "path": "docs/NEXT_EXPERIMENT.md",
-      "size": 2908,
-      "sha256": "cb43473290e9e6e314466d7c33fa369dc629669a2538203c55218799126fe3de"
+      "size": 3167,
+      "sha256": "c57345852940f129b53aed621323ad347baf77699150d6b9ee2e622dd132624e"
     },
     {
       "path": "docs/TESTING.md",

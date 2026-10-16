@@ -6,6 +6,9 @@ the evidence. One profile at a time, cold start, hand-invoked via
 
 ## Prepared profiles (configs/docker/candidates/)
 
+`mtp-flash` replaced `mtp-eagle` on 2026-10-16 (user request): DFLASH
+draft-model speculation instead of the in-checkpoint EAGLE MTP head.
+
 | # | Profile | Changes vs baseline | Hypothesis to test |
 |---|---|---|---|
 | 0 | `baseline` | — | Reference point (validated config; first sweep entry) |
@@ -15,9 +18,9 @@ the evidence. One profile at a time, cold start, hand-invoked via
 | 4 | `mem-90` | mem fraction 0.85→0.90 | Bigger KV pool/graph room; watch unified-memory headroom |
 | 5 | `maxreq-12` | admission 8→12 | Does 12 fit and improve aggregate throughput? |
 | 6 | `chunk-8192` | chunked prefill 2048→8192 | Long-prompt TTFT vs decode interference |
-| 7 | `mtp-eagle` | EAGLE MTP 3/1/4, chunk 8192, no prefill graph, bf16, mem 0.92, c12 | Is the old validated config faster/slower than DSPARK? |
+| 7 | `mtp-flash` | DFLASH, draft `incoai/Qwen3.8-27B-DFlash2`, 4 draft tokens, on the old MTP-era settings (chunk 8192, no prefill graph, bf16, mem 0.92, c12) | DFLASH vs DSPARK acceptance/speed (the RTX PRO 6000 node's chosen algorithm) |
 | 8 | `triton-attn` | triton attention everywhere | Control run for FlashInfer failures (not a speed candidate) |
-| 9 | `512k-yarn` | 512K context, YaRN, mem 0.95, c12 | **Risky.** Reproduces the historic OOM; only with a safer variant in mind |
+| 9 | `512k-yarn` | 512K context, YaRN, mem 0.95, c12, EAGLE 3/1/4 (historic) | **Risky.** Reproduces the historic OOM; only with a safer variant in mind |
 
 ## Suggested order
 

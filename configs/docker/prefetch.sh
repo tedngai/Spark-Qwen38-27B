@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # One-time prefetch for Qwen3.8-27B NVFP4: pull the SGLang image and download
-# the model + DSpark draft model into the shared Hugging Face cache
+# the model + the DSpark and DFlash draft models into the shared Hugging Face cache
 # (.cache/huggingface, bind-mounted into the container).
 #
 #   ./configs/docker/prefetch.sh
@@ -14,6 +14,7 @@ cd "$REPO_ROOT"
 
 MODEL_ID="RadixArk/Qwen3.8-27B-NVFP4"
 DRAFT_MODEL_ID="RadixArk/Qwen3.8-27B-DSpark"
+DFLASH_MODEL_ID="incoai/Qwen3.8-27B-DFlash2"
 IMAGE="lmsysorg/sglang:qwen38-27b"
 ENV_FILE="${REPO_ROOT}/.env"
 HF_HOME="${REPO_ROOT}/.cache/huggingface"
@@ -37,7 +38,7 @@ else
 fi
 
 cat >"${LOG_FILE}" <<EOF
-[$(date -Is)] prefetching ${MODEL_ID} + ${DRAFT_MODEL_ID}
+[$(date -Is)] prefetching ${MODEL_ID} + ${DRAFT_MODEL_ID} + ${DFLASH_MODEL_ID}
 EOF
 
 if docker image inspect "${IMAGE}" >/dev/null 2>&1; then
@@ -49,7 +50,7 @@ fi
 
 docker rm -f "${PREFETCH_CONTAINER_NAME}" >/dev/null 2>&1 || true
 
-echo "Downloading ${MODEL_ID} and ${DRAFT_MODEL_ID} into ${HF_HOME}"
+echo "Downloading ${MODEL_ID}, ${DRAFT_MODEL_ID} and ${DFLASH_MODEL_ID} into ${HF_HOME}"
 echo "This can take a while; progress in ${LOG_FILE}"
 docker run --rm \
   --name "${PREFETCH_CONTAINER_NAME}" \
@@ -63,10 +64,11 @@ docker run --rm \
     if command -v hf >/dev/null 2>&1; then
       hf download "$1"
       hf download "$2"
+      hf download "$3"
     else
-      python3 -c "import sys; from huggingface_hub import snapshot_download; [snapshot_download(m) for m in sys.argv[1:]]" "$1" "$2"
+      python3 -c "import sys; from huggingface_hub import snapshot_download; [snapshot_download(m) for m in sys.argv[1:]]" "$1" "$2" "$3"
     fi
-  ' _ "${MODEL_ID}" "${DRAFT_MODEL_ID}" 2>&1 | tee -a "${LOG_FILE}"
+  ' _ "${MODEL_ID}" "${DRAFT_MODEL_ID}" "${DFLASH_MODEL_ID}" 2>&1 | tee -a "${LOG_FILE}"
 
 echo "Prefetch complete"
 du -sh "${HF_HOME}"

@@ -50,7 +50,7 @@ MAMBA_FULL_MEMORY_RATIO="11.01"
 MAMBA_RADIX_CACHE_STRATEGY="extra_buffer_lazy"
 MAX_MAMBA_CACHE_SIZE=""             # empty = engine default
 DISABLE_PREFILL_CUDA_GRAPH="0"
-SPEC_ALGORITHM="DSPARK"             # DSPARK | EAGLE | empty (no speculative decoding)
+SPEC_ALGORITHM="DSPARK"             # DSPARK | DFLASH | EAGLE | empty (no speculative decoding)
 SPEC_DRAFT_MODEL="RadixArk/Qwen3.8-27B-DSpark"
 SPEC_DRAFT_ATTENTION_BACKEND="flashinfer"
 SPEC_NUM_STEPS=""                   # EAGLE only
@@ -134,10 +134,12 @@ SPEC_ARGS=()
 case "${SPEC_ALGORITHM}" in
   "")
     : ;;                             # speculative decoding disabled
-  DSPARK)
-    SPEC_ARGS=(--speculative-algorithm DSPARK
-               --speculative-draft-model-path "${SPEC_DRAFT_MODEL}"
-               --speculative-draft-attention-backend "${SPEC_DRAFT_ATTENTION_BACKEND}")
+  DSPARK|DFLASH)
+    SPEC_ARGS=(--speculative-algorithm "${SPEC_ALGORITHM}"
+               --speculative-draft-model-path "${SPEC_DRAFT_MODEL}")
+    if [[ -n "${SPEC_DRAFT_ATTENTION_BACKEND}" ]]; then
+      SPEC_ARGS+=(--speculative-draft-attention-backend "${SPEC_DRAFT_ATTENTION_BACKEND}")
+    fi
     if [[ -n "${SPEC_NUM_DRAFT_TOKENS}" ]]; then
       SPEC_ARGS+=(--speculative-num-draft-tokens "${SPEC_NUM_DRAFT_TOKENS}")
     fi
@@ -155,7 +157,7 @@ case "${SPEC_ALGORITHM}" in
     fi
     ;;
   *)
-    echo "ERROR: SPEC_ALGORITHM must be DSPARK, EAGLE, or empty; got '${SPEC_ALGORITHM}'" >&2
+    echo "ERROR: SPEC_ALGORITHM must be DSPARK, DFLASH, EAGLE, or empty; got '${SPEC_ALGORITHM}'" >&2
     exit 1
     ;;
 esac
@@ -177,8 +179,8 @@ mkdir -p "${LOG_DIR}" "${HF_HOME}"
 
 echo "Starting SGLang — profile=${PROFILE}"
 echo "  model=${MODEL_ID}"
-if [[ "${SPEC_ALGORITHM}" == "DSPARK" ]]; then
-  echo "  spec=DSPARK (draft: ${SPEC_DRAFT_MODEL})"
+if [[ "${SPEC_ALGORITHM}" == "DSPARK" || "${SPEC_ALGORITHM}" == "DFLASH" ]]; then
+  echo "  spec=${SPEC_ALGORITHM} (draft: ${SPEC_DRAFT_MODEL})"
 elif [[ "${SPEC_ALGORITHM}" == "EAGLE" ]]; then
   echo "  spec=EAGLE (in-checkpoint MTP head)"
 else

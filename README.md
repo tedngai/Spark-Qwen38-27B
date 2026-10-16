@@ -84,8 +84,8 @@ directly comparable.
 ## Not yet validated
 
 - The packed-context/decode trade-offs and the prepared sweep matrix in
-  `docs/NEXT_EXPERIMENT.md` (spec on/off, draft-token count, GDN pool dtype,
-  mem fraction, admission cap, chunked prefill, EAGLE-vs-DSPARK).
+  `docs/NEXT_EXPERIMENT.md` (spec on/off, DSPARK/DFLASH draft-token counts,
+  GDN pool dtype, mem fraction, admission cap, chunked prefill).
 - Near-limit context behaviour (largest benchmarked prompt ≈ 16K of 262,144
   tokens).
 - Output-quality regressions across profiles (benchmarks measure speed and
