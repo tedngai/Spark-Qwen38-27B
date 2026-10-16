@@ -30,6 +30,32 @@ the suspect 2026-08-16 legacy run. Ranking decisions use the A/B harness
 (`tests/benchmark.py`, raw `/generate` forced decodes — counts every token);
 the suite is kept only as a consistent, content-only cross-check.
 
+### dspark-d8 — 2026-10-16 — repeatability check, not a variant
+
+- Discovery: DSpark's default `--speculative-num-draft-tokens` is **8**, so
+  this profile ran the same effective config as baseline (verified: identical
+  container command apart from the explicit `... 8`). It therefore measures
+  **run-to-run variance**, not an experiment. Retained for exactly that.
+- Cold start ready in 231 s; 0 failures/retractions.
+
+| scenario | agg | dec p50 | accept | baseline agg | baseline dec |
+|---|---|---|---|---|---|
+| short-c1 | 36.57 | 38.06 | 4.34 | 30.1 | 31.1 |
+| short-c4 | 101.61 | 35.22 | 4.86 | 122.7 | 37.9 |
+| short-c8 | 137.88 | 33.25 | 5.83 | 144.5 | 29.5 |
+| short-c12 | 144.53 | 26.82 | 5.04 | 151.1 | 28.3 |
+| short-c16 | 154.62 | 26.54 | 5.11 | 141.8 | 25.0 |
+| long-c1 | 22.86 | 40.05 | 4.66 | 21.1 | 35.0 |
+| long-c8 | 38.28 | 11.64 | 5.03 | 37.4 | 11.0 |
+| long-c12 | 39.46 | 10.79 | 5.20 | 40.4 | 10.63 |
+
+- Variance read (identical config!): short-prompt aggregates swing ±5–22%
+  between runs (worst at c1/c4), decode p50 ±10–22%, long-prompt aggregates
+  are stable (±3–8%). **Implication for the sweep: only treat a difference as
+  real if it clears this noise band; c1 numbers are the noisiest.**
+- The profile was repurposed to `dspark-d4` (a real variant) after this run;
+  this entry stays as the variance reference.
+
 ### no-spec — 2026-10-16
 
 - Config: baseline minus speculative decoding (`SPEC_ALGORITHM=`).

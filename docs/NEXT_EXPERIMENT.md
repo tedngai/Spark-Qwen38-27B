@@ -13,7 +13,7 @@ draft-model speculation instead of the in-checkpoint EAGLE MTP head.
 |---|---|---|---|
 | 0 | `baseline` | — | Reference point (validated config; first sweep entry) |
 | 1 | `no-spec` | DSPARK off | Quantify the speedup DSPARK buys; how much memory/PPL it costs |
-| 2 | `dspark-d8` | 8 draft tokens/step | Longer drafts: acceptance vs wasted verification work |
+| 2 | `dspark-d4` | DSPARK with 4 draft tokens (engine default is 8; the old `dspark-d8` profile was identical to baseline and stands as a repeatability run) | Fewer draft tokens: less draft/verify overhead under load; accept length vs speed |
 | 3 | `mamba-bf16` | bf16 GDN pool, ratio 4.21, cache 64 | ~20 GB back to KV cache; decode-speed cost? |
 | 4 | `mem-90` | mem fraction 0.85→0.90 | Bigger KV pool/graph room; watch unified-memory headroom |
 | 5 | `maxreq-12` | admission 8→12 | Does 12 fit and improve aggregate throughput? |

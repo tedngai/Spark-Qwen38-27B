@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-10-16T04:48:36Z",
+  "generated_at": "2026-10-16T04:57:58Z",
   "repository": "Qwen3.8-27B-Deployment",
-  "file_count": 50,
+  "file_count": 56,
   "files": [
     {
       "path": ".env.example",
@@ -40,8 +40,8 @@
     },
     {
       "path": "configs/docker/candidates/baseline.env",
-      "size": 708,
-      "sha256": "ff4ca10c34106bcbf1eb2364c61ca23ea0636f11e1a763ba55fc61192230474c"
+      "size": 808,
+      "sha256": "e8a487b015bd55c10cf1a921c978dca0fb13f48df27a02c0666a2b5e35e383d4"
     },
     {
       "path": "configs/docker/candidates/chunk-8192.env",
@@ -49,9 +49,9 @@
       "sha256": "4999abca4a4f9a681df819c47d733ad27714285933055fe116b6ff6f19dfcf48"
     },
     {
-      "path": "configs/docker/candidates/dspark-d8.env",
-      "size": 308,
-      "sha256": "79fd79d069631c118c285c85d920fdfff7c12a05270481a787786fbfff3ee34d"
+      "path": "configs/docker/candidates/dspark-d4.env",
+      "size": 465,
+      "sha256": "3c2034d04ef3a10cef6f10be1cccde4928f3f4f1176424dd8f519582a973071e"
     },
     {
       "path": "configs/docker/candidates/mamba-bf16.env",
@@ -105,8 +105,8 @@
     },
     {
       "path": "docs/NEXT_EXPERIMENT.md",
-      "size": 3167,
-      "sha256": "c57345852940f129b53aed621323ad347baf77699150d6b9ee2e622dd132624e"
+      "size": 3313,
+      "sha256": "6834e78191cf92e2ba02a24f295dd3b47e024f7873117517702b9cbabd7a9769"
     },
     {
       "path": "docs/TESTING.md",
@@ -115,8 +115,8 @@
     },
     {
       "path": "docs/results.md",
-      "size": 4568,
-      "sha256": "eb0c95b6624cbfd504649cb25fa3c1ec6305a0f1b893e578cbc5d135a9e1644b"
+      "size": 5927,
+      "sha256": "73ab65e3f3bb6fa42366b6b283d37906804ea1b8fe0d28c39aeca1d5706866a6"
     },
     {
       "path": "evidence/README.md",
@@ -157,6 +157,36 @@
       "path": "evidence/baseline-vllmbench-20261016T043511Z/result_NVIDIA_GB10_RadixArk_Qwen3.8-27B-NVFP4_20261016_043553.json",
       "size": 816,
       "sha256": "9b5d75fb45eac832dc335a9e22371266917ba7aeef74431a03356477dd9694dd"
+    },
+    {
+      "path": "evidence/dspark-d8-bench-20261016T045635Z.json",
+      "size": 93014,
+      "sha256": "f95b9ef9b040024b61b5d6c1cab160aef2fbcd7d161efedc8095070a63a516da"
+    },
+    {
+      "path": "evidence/dspark-d8-server-info-20261016T045228Z.json",
+      "size": 49913,
+      "sha256": "5100ae286ac0b7adcd37d70a09e9d83f0b907794534686a4c35e0198dc295f1b"
+    },
+    {
+      "path": "evidence/dspark-d8-smoke-20261016T045230Z.json",
+      "size": 1315,
+      "sha256": "21b7b83f569d741c6796ddfee3e65188c113bdd8ad07da3e6705d0c9eb17705c"
+    },
+    {
+      "path": "evidence/dspark-d8-vllmbench-20261016T045635Z/benchmark_RadixArk_Qwen3.8-27B-NVFP4_20261016_045719.csv",
+      "size": 1192,
+      "sha256": "36fe3ba71be0b0c7c5fbfb8f648ac5a166063adbf7deffe401204c1e5a8de083"
+    },
+    {
+      "path": "evidence/dspark-d8-vllmbench-20261016T045635Z/benchmark_RadixArk_Qwen3.8-27B-NVFP4_20261016_045719.json",
+      "size": 4413,
+      "sha256": "3554dff5ddb8bc49a9cfc979d4fb4db5443260c9c60c5dac6e0a8d040d3f6831"
+    },
+    {
+      "path": "evidence/dspark-d8-vllmbench-20261016T045635Z/result_NVIDIA_GB10_RadixArk_Qwen3.8-27B-NVFP4_20261016_045719.json",
+      "size": 815,
+      "sha256": "ed15571dba44b229e5e1cd3b62f3f8cef5665d05202885b1fb12cd5e691d1075"
     },
     {
       "path": "evidence/legacy-20260816/benchmark_RadixArk_Qwen3.8-27B-NVFP4_20260816_010833.csv",
