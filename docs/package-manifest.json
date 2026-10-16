@@ -1,0 +1,192 @@
+{
+  "generated_at": "2026-10-16T04:18:42Z",
+  "repository": "Qwen3.8-27B-Deployment",
+  "file_count": 37,
+  "files": [
+    {
+      "path": ".env.example",
+      "size": 456,
+      "sha256": "c7507e3ba2aa48b9d8b4475fe9f71a66a28646466783aeadf6a88185b36542c5"
+    },
+    {
+      "path": ".gitignore",
+      "size": 462,
+      "sha256": "34dbbb24373cff35e2dcf141b39b40b32675d578f211323fb042402fd0440ca3"
+    },
+    {
+      "path": "AGENTS.md",
+      "size": 3974,
+      "sha256": "771e7f57275d9a5536ec7ce57d7a764c1456d82147f4288edda03134f4a552d5"
+    },
+    {
+      "path": "README.md",
+      "size": 6746,
+      "sha256": "f31c150d457ce6210001b5342e84f68a9ff115be385d5257e122834762ca298b"
+    },
+    {
+      "path": "configs/docker/README.md",
+      "size": 1308,
+      "sha256": "a9ba30335f0b148a8c43b0056a4898af7926c0d36b8670d7bb531a60cdc08b57"
+    },
+    {
+      "path": "configs/docker/candidates/512k-yarn.env",
+      "size": 696,
+      "sha256": "74ad9bc0f6638adffaf020252bf1748eed1a97fc5767e01824ccbb9cf5a87160"
+    },
+    {
+      "path": "configs/docker/candidates/README.md",
+      "size": 1721,
+      "sha256": "eac60aa4546c105b89149b0fa5ffee3fb0ffca9e82d25ec51198e810e5b59e44"
+    },
+    {
+      "path": "configs/docker/candidates/baseline.env",
+      "size": 708,
+      "sha256": "ff4ca10c34106bcbf1eb2364c61ca23ea0636f11e1a763ba55fc61192230474c"
+    },
+    {
+      "path": "configs/docker/candidates/chunk-8192.env",
+      "size": 250,
+      "sha256": "4999abca4a4f9a681df819c47d733ad27714285933055fe116b6ff6f19dfcf48"
+    },
+    {
+      "path": "configs/docker/candidates/dspark-d8.env",
+      "size": 308,
+      "sha256": "79fd79d069631c118c285c85d920fdfff7c12a05270481a787786fbfff3ee34d"
+    },
+    {
+      "path": "configs/docker/candidates/mamba-bf16.env",
+      "size": 303,
+      "sha256": "023aad3c6e67749b9d25b8c91f3fa2ccaf9a3ee42b74a5fade3d6fea341a090a"
+    },
+    {
+      "path": "configs/docker/candidates/maxreq-12.env",
+      "size": 273,
+      "sha256": "16028628fb98244d78f01ad82cc2d896476dcca4c9b5e079f4af8ee4a318d43c"
+    },
+    {
+      "path": "configs/docker/candidates/mem-90.env",
+      "size": 302,
+      "sha256": "509cb6790cb7d9c8915e229f4df26830ba563bb4175b564f7b1bea72488d78ed"
+    },
+    {
+      "path": "configs/docker/candidates/mtp-eagle.env",
+      "size": 541,
+      "sha256": "691a512832345db1de19a7e2b4def4251dbe5b568fe914065e579fa0affc0f02"
+    },
+    {
+      "path": "configs/docker/candidates/no-spec.env",
+      "size": 214,
+      "sha256": "4638ab7afe01e44cf03ae284d0014992a9dfae929f71ac92a5a991b42b8c6774"
+    },
+    {
+      "path": "configs/docker/candidates/triton-attn.env",
+      "size": 273,
+      "sha256": "1a51b930862827cbf837338fee1b7f5d839ec9b3a4793f8f3e4deaf988b457b6"
+    },
+    {
+      "path": "configs/docker/prefetch.sh",
+      "size": 2156,
+      "sha256": "1ea1cd14a28a28547960784f30cc58eaf92f01a30995e5c33efb22ffeae76beb"
+    },
+    {
+      "path": "configs/docker/run_qwen38_sglang.sh",
+      "size": 9816,
+      "sha256": "a057e89a0c7f737e055bb297814a8612ad73f671067d14ee34cfd83426e32212"
+    },
+    {
+      "path": "configs/docker/stop.sh",
+      "size": 1487,
+      "sha256": "26f1956ea78aa25d528e7a00b7bf037a2fb57ce0817ca5092cf47cd2f9d50d32"
+    },
+    {
+      "path": "docs/INFERENCE_CONTEXT.md",
+      "size": 3140,
+      "sha256": "e0d48157312872b7af2337024d2b95167f37c8a2aac28c459869aaad470924f1"
+    },
+    {
+      "path": "docs/NEXT_EXPERIMENT.md",
+      "size": 2908,
+      "sha256": "cb43473290e9e6e314466d7c33fa369dc629669a2538203c55218799126fe3de"
+    },
+    {
+      "path": "docs/TESTING.md",
+      "size": 2961,
+      "sha256": "59129b98560c4c67104ec423d36a6fb5a0eb63f74e9a08dec62860292f0cdd2a"
+    },
+    {
+      "path": "docs/results.md",
+      "size": 1521,
+      "sha256": "38b620c27761ef02c1acbae64768e2e1a32b6f6fd6561e542aec4fdf594b0934"
+    },
+    {
+      "path": "evidence/README.md",
+      "size": 1203,
+      "sha256": "92d7696a0d9574ffb5bfbc6b2a099346de48c036fd92662abe9e478a15adb63c"
+    },
+    {
+      "path": "evidence/legacy-20260816/benchmark_RadixArk_Qwen3.8-27B-NVFP4_20260816_010833.csv",
+      "size": 5388,
+      "sha256": "1fa654d7ceeaace5beea4b5700a49dc16def0a6db8673b5dabefb86ef8375aeb"
+    },
+    {
+      "path": "evidence/legacy-20260816/benchmark_RadixArk_Qwen3.8-27B-NVFP4_20260816_010833.json",
+      "size": 15517,
+      "sha256": "5e541e47fb475197b8380f2e0f6db8c67e60758587fee723f3d0ea00b45e6ecf"
+    },
+    {
+      "path": "evidence/legacy-20260816/result_NVIDIA_GB10_RadixArk_Qwen3.8-27B-NVFP4_20260816_010833.json",
+      "size": 861,
+      "sha256": "f94e53c40b065d5f5f5471e026189211e4d5fcc36b1e046f1e892607028e1bbd"
+    },
+    {
+      "path": "evidence/preflight-bench-20261016T041836Z.json",
+      "size": 51007,
+      "sha256": "ff5210496d8cab751c9e6367265f814cf28783527ddcd6d2aa14241ea2e6f8ff"
+    },
+    {
+      "path": "evidence/preflight-server-info-20261016T041804Z.json",
+      "size": 49910,
+      "sha256": "38b0a2106633313bc48b315c0ff59beadb50a12430597079d16ef06112bfede9"
+    },
+    {
+      "path": "evidence/preflight-smoke-20261016T041806Z.json",
+      "size": 1339,
+      "sha256": "91dbc94f0f12b722d52621fa3bc09b59638f1589535e66b5188019a695bf888d"
+    },
+    {
+      "path": "tests/README.md",
+      "size": 1878,
+      "sha256": "9db9a64bd492838551ad58960097db072c6d889acf44fb50114a8aa7c55006bc"
+    },
+    {
+      "path": "tests/benchmark.py",
+      "size": 17282,
+      "sha256": "06d733420f17737fcae13af63ea15d2e59317bd37cb086883ac9a25242eab8ea"
+    },
+    {
+      "path": "tests/capture_server.py",
+      "size": 4532,
+      "sha256": "c4dbb678a52ba6b5f1d63538b4e60502bc2dee46f3f9c20e6c6870bab684fed2"
+    },
+    {
+      "path": "tests/compare.py",
+      "size": 5238,
+      "sha256": "dd9f87b113d720ee55b9f7c6485f3cd9b0fd8a22c3fbb88991d3b11718cdb3ce"
+    },
+    {
+      "path": "tests/gen_manifest.py",
+      "size": 2781,
+      "sha256": "6d4bcb548d73d16141fe90dbfc7156fa4eea3ca58f21204084bd3ff953e5ef15"
+    },
+    {
+      "path": "tests/run_profile.sh",
+      "size": 3940,
+      "sha256": "fa6c8884f3e3c7b8aeb3a35210ecdda3f6b4d544d3db4ed711b5f1536614c858"
+    },
+    {
+      "path": "tests/smoke_test.py",
+      "size": 5400,
+      "sha256": "b39b645c0ce4090ea59f6716b8362f9c16e202d5ab3bf6bc689235639e29899a"
+    }
+  ]
+}

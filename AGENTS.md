@@ -1,79 +1,82 @@
-# Qwen3.8-27B Deployment — Agent Context
+# Agent rules for the Qwen3.8-27B-Deployment repository
 
-## Project
-- Self-hosted inference via Docker for `RadixArk/Qwen3.8-27B-NVFP4` on NVIDIA GB10 (DGX Spark)
-- Dense 27B, NVFP4 W4A4 + FP8 projections, vision-language (image + video), hybrid GDN/full-attention layers, 262K context, MTP-trained
-- Engine: SGLang (OpenAI-compatible API)
-- Image: `lmsysorg/sglang:qwen38-27b` (official SGLang image per https://docs.sglang.io/cookbook/qwen3.8-27b/)
-- Container name: `qwen3.8-27b-nvfp4-sglang`; host network, port 8000
-- Repo: http://itgit.pratt.edu/tngai/Qwen3.8-27B-Deployment.git
+Packaged Qwen3.8-27B SGLang deployment project for the DGX Spark (GB10):
+profile-driven launch scripts, measurement harnesses, captured evidence, and
+documentation. This file is the operating manual for AI agents managing it.
 
-## Files
-| File | Purpose |
-|---|---|
-| `prefetch.sh` | Pull image + download model into `.cache/huggingface` |
-| `start.sh` | Docker launcher — `--network host`, `--gpus all`, polls `/v1/models` until ready |
-| `stop.sh` | Remove serve/prefetch containers + PID file (logs preserved) |
-| `.env.example` | Template for `.env` (`HF_TOKEN`, `CONTEXT_LENGTH`, `YARN`) |
-| `.env` | NOT in repo — create from `.env.example` (gitignored) |
-| `.gitignore` | Excludes `.env`, `.cache/`, logs, pid, benchmark_results |
-| `README.md` | Project docs and troubleshooting |
-| `AGENTS.md` | This file — the agent's operating manual |
+## Repo map
 
-## Fresh-Spark Setup (run in order)
-1. `git clone http://itgit.pratt.edu/tngai/Qwen3.8-27B-Deployment.git && cd Qwen3.8-27B-Deployment`
-2. `cp .env.example .env` and fill in `HF_TOKEN` (Hugging Face token for downloads)
-3. `./prefetch.sh` — pulls image, downloads ~16 GB model into `.cache/huggingface`
-4. `./start.sh` — blocks until ready (polls `GET /v1/models`); then verify:
-   ```bash
-   curl http://127.0.0.1:8000/v1/chat/completions \
-     -H "Content-Type: application/json" \
-     -d '{"model":"RadixArk/Qwen3.8-27B-NVFP4","messages":[{"role":"user","content":"Say hello in one sentence."}],"max_tokens":256}'
-   ```
-5. `./stop.sh` to stop; `rm -rf .cache/ .sglang.* .prefetch.*` for full cleanup
+- `configs/docker/run_qwen38_sglang.sh` — the only launcher. `[profile]`
+  argument loads `configs/docker/candidates/<profile>.env` (default
+  `baseline`); waits for readiness; `--restart no`.
+- `configs/docker/stop.sh` / `prefetch.sh` — stop container / one-time pull +
+  download.
+- `tests/` — measurement scripts. `run_profile.sh` is the one-shot
+  stop→start→capture→smoke→bench→stop cycle; the others measure a running
+  server and never start/stop it.
+- `evidence/` — committed, timestamped reports. `docs/` — policy, context,
+  sweep plan, results. `logs/`, `.cache/`, `.env` — local only, never commit.
 
-## Key Config (start.sh) — do not change without reason
-- Serve command follows the SGLang DGX Spark NVFP4 recipe: https://docs.sglang.io/cookbook/qwen3.8-27b/
-- `--attention-backend flashinfer`, `--mem-fraction-static 0.92`, `--disable-prefill-cuda-graph`
-- `--chunked-prefill-size 8192`, `--trust-remote-code`, `--allow-auto-truncate`
-- `--reasoning-parser qwen3`, `--tool-call-parser qwen3_coder`
-- GDN state pool (tuned; ~7 GB vs ~26.6 GB fp32 default): `--mamba-ssm-dtype bfloat16 --mamba-full-memory-ratio 4.21 --mamba-radix-cache-strategy extra_buffer_lazy --max-mamba-cache-size $((MAX_RUNNING_REQUESTS*8))`
-- Context: `CONTEXT_LENGTH=262144` + `YARN=0` default (native 262K, no rope override). Range 262144..1000000; >262K requires `YARN=1` (or exactly 1000000, auto). start.sh computes the `--json-model-override-args` text_config YaRN block and sets `SGLANG_ALLOW_OVERWRITE_LONGER_CONTEXT_LEN=1`
-- MTP enabled via in-checkpoint head: `--speculative-algorithm EAGLE --speculative-num-steps 3 --speculative-eagle-topk 1 --speculative-num-draft-tokens 4` (~3-4x decode, accept len ~3.5/4)
-- Tuning knobs: `MAX_RUNNING_REQUESTS=8` (concurrency), `CONTEXT_LENGTH`, `YARN`, `--mem-fraction-static`
+## Operational rules (hard)
 
-## Agent Role
-- Manage inference lifecycle (start / stop / restart / logs / tune)
-- Modify `start.sh` config flags only when the user requests changes
-- Monitor logs: `tail -f .sglang.log` (server), `.prefetch.log` (downloads)
-- Verify readiness with `curl -fsS http://127.0.0.1:8000/v1/models`
-- Push config changes back to the repo (see Git Workflow); update this file and README.md when flags or setup change significantly
+- **Manual runs only.** No systemd/cron/supervisors, no restart policies, no
+  retry loops. One server at a time; the launcher refuses to double-start.
+  `tests/run_profile.sh` is hand-invoked and aborts on first failure —
+  never wrap it in a loop.
+- **Cold start per measured profile.** Never A/B two configs against one
+  running process.
+- The live artifact is the container `qwen3.8-27b-nvfp4-sglang` on port 8000,
+  started by hand. Verify `/health` and `/get_server_info` before assessing.
+- **Never claim a configuration is validated without runtime evidence saved
+  under `evidence/`.**
+- Do not run the full sweep yourself; the user drives benchmarks. Assist:
+  start/stop/restart, tail logs, prepare profiles, analyze evidence, update
+  docs.
+- Model/config changes: edit a candidate profile (or add a new one) rather
+  than touching launcher defaults; document the hypothesis in
+  `docs/NEXT_EXPERIMENT.md` and the finding in `docs/results.md`.
 
-## Server Info
-- OpenAI-compatible endpoint: `http://0.0.0.0:8000/v1`
-- Model name: `RadixArk/Qwen3.8-27B-NVFP4`
-- Readiness: `GET /v1/models`; chat: `POST /v1/chat/completions`
-- Reasoning: `reasoning_content` field in responses; `enable_thinking` toggles thinking; thinking models need 500+ output tokens to produce content beyond reasoning
+## Workflow
 
-## Benchmark Protocol
-- Harness: `vllm-bench` (`vllm-benchmark-suite`) against `http://127.0.0.1:8000/v1/chat/completions`
-- Result JSON goes to `benchmark_results/result_*.json` (gitignored)
+- **Always commit changes.** After any change, commit with a descriptive
+  message. Small, incremental commits. Do not leave the tree dirty.
+- After adding/removing/renaming/materially changing files, regenerate
+  `docs/package-manifest.json` (`python3 tests/gen_manifest.py`) before
+  committing.
+- Evidence naming: `<profile>-<kind>-<UTC YYYYMMDDTHHMMSSZ>.json`; never
+  overwrite an existing report; retain failed/invalid probes and mark them.
+- Never commit: model weights or caches (`.cache/`), logs (`logs/`), `.env`,
+  shell history, tokens. `.gitignore` is a guardrail, not permission.
 
-## Troubleshooting (verified fallbacks)
-- Container exits before ready → `tail -200 .sglang.log`
-- Host OOM (GB10 unified memory) → lower `--mem-fraction-static` to `0.90`
-- MTP with FlashInfer fails → `--attention-backend triton` or remove the `--speculative-*` flags
-- Re-download on every start → verify `.cache/huggingface` mount and `HF_HOME=/root/.cache/huggingface` in container
-- Image-only text inference → vision tower is live by default; no extra flags needed
+## Server info
 
-## Memory History (why current values)
-- Host OOM: 512K context + 12 concurrent + 0.95 mem fraction exhausted 128 GB unified memory (NVRM NV_ERR_NO_MEMORY, heavy swap). Current: 262K + 8 concurrent + 0.92
+- Endpoint: `http://0.0.0.0:8000/v1` (host network, no auth — trusted
+  networks only); container `qwen3.8-27b-nvfp4-sglang`.
+- Model: `RadixArk/Qwen3.8-27B-NVFP4`; reasoning parsed into
+  `reasoning_content`; thinking models need ≥ ~100 output tokens for content.
+- Useful probes: `curl -s localhost:8000/health`, `/get_server_info`,
+  `/v1/models`; server log `logs/qwen38_sglang.log`.
 
-## Git Workflow
-- Repo holds only deployment-critical files; secrets (`.env`) and caches are never committed
-- To push: `git add -A && git commit -m "<msg>" && git push` (repo stores credentials in `.git/config`)
+## Publishing
 
-## Migration History (this deployment's lineage)
-- v1: TokenSpeed + `Qwen/Qwen3.8-27B-FP8` — failed on GB10 (KV cache budget, SM121 kernel gaps)
-- v2: vLLM + `unsloth/Qwen3.8-27B-NVFP4` — reference from tonyd2wild/Qwen3.8-27B-NVFP4-DGX-Spark
-- v3 (current): SGLang + `RadixArk/Qwen3.8-27B-NVFP4` — official checkpoint per SGLang docs
+No remote is configured yet (local-only commits by agreement, 2026-10-16).
+When publishing is re-enabled, prefer the Pratt Gitea remote
+`http://itgit.pratt.edu/tngai/Qwen3.8-27B-Deployment.git` using `GITEA_TOKEN`
+from `.env` (the host only resolves `itgit.pratt.edu` on the Pratt network),
+or a GitHub remote under `tedngai` with a fine-grained PAT in `.env`
+(`GITHUB_PAT`). For either, use a repo-local credential helper that reads the
+token from `.env`:
+
+```bash
+git config --local credential.helper \
+  '!f() { . /home/tngai/data/vllm-qwen38/.env; echo username=x-access-token; echo "password=${GITEA_TOKEN:-$GITHUB_PAT}"; }; f'
+```
+
+Never print a token, put one in a remote URL, copy one into tracked files, or
+stage `.env` (verify with `git check-ignore .env`).
+
+## Memory history (why the baseline values)
+
+- 2026-10-13: 512K context + 12 concurrent + `--mem-fraction-static 0.95` →
+  host OOM (NVRM `NV_ERR_NO_MEMORY`, heavy swap).
+- Baseline since: 262K + 8 concurrent + 0.85 (see `docs/INFERENCE_CONTEXT.md`).

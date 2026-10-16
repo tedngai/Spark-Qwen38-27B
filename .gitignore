@@ -1,7 +1,30 @@
-.env
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+*.swp
+.DS_Store
+
+# Secrets (repo root only; candidate profiles under configs/ are tracked).
+/.env
+
+# Runtime logs, pid files, and local state should never enter git.
+logs/
+*.log
+*.pid
 .cache/
+
+# Legacy pre-packaging artifacts kept only on disk.
 .sglang.log
 .sglang.pid
 .prefetch.log
 .start-mtp.out
-benchmark_results/
+.start-*.log
+
+# Model weights, caches, and other large local artifacts.
+*.safetensors
+*.bin
+*.pt
+*.pth
+huggingface/
