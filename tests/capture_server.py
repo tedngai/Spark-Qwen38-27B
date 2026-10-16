@@ -18,6 +18,7 @@ import json
 import pathlib
 import subprocess
 import sys
+import time
 import urllib.request
 
 SECRET_MARKERS = ("TOKEN", "KEY", "SECRET", "PASSWORD")
@@ -95,8 +96,25 @@ def main() -> int:
     }
 
     ok = True
+
+    # /health can briefly return 503 right after startup; wait it out.
+    health_status, health_body, health_error = None, None, None
+    for _ in range(15):
+        try:
+            health_status, health_body = http_json(base + "/health", timeout=15.0)
+            if health_status == 200:
+                break
+        except Exception as exc:
+            health_error = f"{type(exc).__name__}: {exc}"
+        time.sleep(2.0)
+    report["health"] = health_body
+    report["health_http_status"] = health_status
+    report["health_error"] = health_error
+    print(f"/health -> HTTP {health_status}")
+    if health_status != 200:
+        ok = False
+
     for key, path in (
-        ("health", "/health"),
         ("models", "/v1/models"),
         ("server_info", "/get_server_info"),
     ):

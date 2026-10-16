@@ -85,19 +85,25 @@ def main() -> int:
     base = args.base_url.rstrip("/")
     report: dict = {"captured_at": utc_now(), "base_url": base, "profile": args.profile}
 
-    # 1. health
-    try:
-        status, health = http_json(base + "/health", timeout=15.0)
-    except Exception as exc:  # report any transport failure
-        print(f"FAIL: /health request error: {exc}")
+    # 1. health — retry: /health can briefly 503 right after startup
+    status, health, last_error = None, None, None
+    for _ in range(15):
+        try:
+            status, health = http_json(base + "/health", timeout=15.0)
+            if status == 200:
+                break
+        except Exception as exc:
+            last_error = exc
+        time.sleep(2.0)
+    if status != 200:
+        detail = last_error if last_error else f"HTTP {status}"
+        print(f"FAIL: server not ready (/health: {detail})")
+        report["health_error"] = str(detail)
+        save(report, args.profile, args.save_dir)
         return 1
     report["health_status"] = status
     report["health_body"] = health
     print(f"/health -> HTTP {status}")
-    if status != 200:
-        print("FAIL: server not ready (health != 200)")
-        save(report, args.profile, args.save_dir)
-        return 1
 
     # 2. models
     model = args.model

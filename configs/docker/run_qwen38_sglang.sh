@@ -234,10 +234,14 @@ echo "Spawned container ${CONTAINER_NAME} (${container_id:0:12})"
 nohup docker logs -f "${CONTAINER_NAME}" >> "${LOG_FILE}" 2>&1 &
 echo $! > "${LOGFOLLOW_PID_FILE}"
 
-echo "Waiting for ${READY_URL} (warm start typically takes ~3.5 min)"
+HEALTH_URL="http://127.0.0.1:${PORT}/health"
+echo "Waiting for ${READY_URL} + /health (warm start typically takes ~3.5 min)"
 start_ts=$(date +%s)
 last_report=0
-while ! curl -fsS "${READY_URL}" >/dev/null 2>&1; do
+while :; do
+  if curl -fsS "${READY_URL}" >/dev/null 2>&1 && curl -fsS "${HEALTH_URL}" >/dev/null 2>&1; then
+    break
+  fi
   if ! docker ps --format '{{.Names}}' | grep -qx "${CONTAINER_NAME}"; then
     echo "ERROR: SGLang container exited before becoming ready. Last 40 lines of ${LOG_FILE}:" >&2
     tail -n 40 "${LOG_FILE}" >&2 || true

@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-10-16T04:22:15Z",
+  "generated_at": "2026-10-16T04:26:57Z",
   "repository": "Qwen3.8-27B-Deployment",
-  "file_count": 37,
+  "file_count": 38,
   "files": [
     {
       "path": ".env.example",
@@ -90,8 +90,8 @@
     },
     {
       "path": "configs/docker/run_qwen38_sglang.sh",
-      "size": 9966,
-      "sha256": "92b7c0adc3218c747580264aabfa9dd2963e63a95412596dc5cac15591ed1acf"
+      "size": 10092,
+      "sha256": "afb070756c2f713bbd2ab3cd60db18285af0ba70274b5d6e22a1e46a951d0997"
     },
     {
       "path": "configs/docker/stop.sh",
@@ -122,6 +122,11 @@
       "path": "evidence/README.md",
       "size": 1203,
       "sha256": "92d7696a0d9574ffb5bfbc6b2a099346de48c036fd92662abe9e478a15adb63c"
+    },
+    {
+      "path": "evidence/baseline-server-info-20261016T042635Z.json",
+      "size": 49897,
+      "sha256": "27cc72f1fb23b63d74af20ba3b70791020931a9ad00fe832bbc29f506a102329"
     },
     {
       "path": "evidence/legacy-20260816/benchmark_RadixArk_Qwen3.8-27B-NVFP4_20260816_010833.csv",
@@ -165,8 +170,8 @@
     },
     {
       "path": "tests/capture_server.py",
-      "size": 4532,
-      "sha256": "c4dbb678a52ba6b5f1d63538b4e60502bc2dee46f3f9c20e6c6870bab684fed2"
+      "size": 5164,
+      "sha256": "328323371dd0b517d3623065c762e0b4f88659a5f35e3b5daba5220ed74b2f41"
     },
     {
       "path": "tests/compare.py",
@@ -185,8 +190,8 @@
     },
     {
       "path": "tests/smoke_test.py",
-      "size": 5400,
-      "sha256": "b39b645c0ce4090ea59f6716b8362f9c16e202d5ab3bf6bc689235639e29899a"
+      "size": 5658,
+      "sha256": "b5192e0c6e827c2e5f37157afd4ad9d8ad39a5b21ffbcf56e8acdfd31eb0d1e3"
     }
   ]
 }
