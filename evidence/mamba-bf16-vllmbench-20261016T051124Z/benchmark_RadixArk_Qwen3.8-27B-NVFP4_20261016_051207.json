@@ -1,0 +1,152 @@
+{
+  "metadata": {
+    "timestamp": "20261016_051207",
+    "benchmark_duration": 33.34291625022888,
+    "system_info": {
+      "python_version": "3.13.13",
+      "platform": "Linux-6.17.0-1026-nvidia-aarch64-with-glibc2.39",
+      "processor": "aarch64",
+      "cuda_version": "13.0",
+      "driver_version": "580.159.03",
+      "gpu_name": "NVIDIA GB10",
+      "total_vram_gb": null,
+      "timestamp": "2026-10-16T05:11:25.347147"
+    },
+    "server_info": {
+      "model_name": "RadixArk/Qwen3.8-27B-NVFP4",
+      "max_model_len": 262144,
+      "backend": null,
+      "version": null,
+      "quantization": "FP16/BF16",
+      "tensor_parallel": null,
+      "pipeline_parallel": null,
+      "max_num_seqs": null,
+      "gpu_memory_utilization": null,
+      "kv_cache_usage": null,
+      "prefix_caching": null,
+      "additional_info": {
+        "root": "RadixArk/Qwen3.8-27B-NVFP4"
+      }
+    },
+    "environment": {
+      "timestamp": "2026-10-16T05:12:07Z",
+      "kernel": "Linux 6.17.0-1026-nvidia",
+      "cpu": {
+        "model": "aarch64",
+        "cores": 20,
+        "governor": "performance"
+      },
+      "memory": {
+        "total_gb": 121.6,
+        "available_gb": 10.7
+      },
+      "gpu": {
+        "name": "NVIDIA GB10",
+        "count": 1,
+        "driver_version": "580.159.03",
+        "cuda_version": "13.0",
+        "per_gpu": [
+          {
+            "index": 0,
+            "persistence_mode": "Enabled",
+            "power_limit_w": "[N/A]",
+            "max_clock_mhz": 3003,
+            "memory_total_mb": "[N/A]",
+            "pcie_gen": 1,
+            "pcie_width": 1
+          }
+        ]
+      },
+      "python_version": "3.13.13",
+      "vllm_version": "unknown",
+      "packages": {
+        "torch": "unknown",
+        "transformers": "5.13.0",
+        "numpy": "2.5.0"
+      },
+      "fingerprint": "e00c0ab8ee185231affa8ceebc8dd7b8013043cdbbaed6b58719d24b3dc44c56"
+    },
+    "configuration": {
+      "context_lengths": [
+        32000
+      ],
+      "concurrent_users": [
+        1,
+        4
+      ],
+      "output_tokens": 150,
+      "prompt_types": [
+        "classic"
+      ],
+      "streaming": true,
+      "iterations": 1,
+      "seed": null
+    }
+  },
+  "results": [
+    {
+      "context_length": 32000,
+      "concurrent_users": 1,
+      "prompt_type": "classic",
+      "total_time": 16.476670265197754,
+      "successful": 1,
+      "failed": 0,
+      "total_requests": 1,
+      "avg_latency": 16.476210832595825,
+      "std_latency": 0,
+      "min_latency": 16.476210832595825,
+      "max_latency": 16.476210832595825,
+      "latency_p50": 16.476210832595825,
+      "latency_p90": 16.476210832595825,
+      "latency_p95": 16.476210832595825,
+      "latency_p99": 16.476210832595825,
+      "ttft_estimate": 10.807355165481567,
+      "ttft_p50": 10.807355165481567,
+      "ttft_p90": 10.807355165481567,
+      "ttft_p95": 10.807355165481567,
+      "ttft_p99": 10.807355165481567,
+      "tokens_per_second": 0.060691874262496684,
+      "requests_per_second": 0.060691874262496684,
+      "throughput_per_user": 0.060691874262496684,
+      "avg_prompt_tokens": 0,
+      "avg_completion_tokens": 1,
+      "itl_p50": 16.476210832595825,
+      "itl_p90": 16.476210832595825,
+      "itl_p95": 16.476210832595825,
+      "itl_p99": 16.476210832595825,
+      "iteration": 0
+    },
+    {
+      "context_length": 32000,
+      "concurrent_users": 4,
+      "prompt_type": "classic",
+      "total_time": 9.0386323928833,
+      "successful": 4,
+      "failed": 0,
+      "total_requests": 4,
+      "avg_latency": 8.520110011100769,
+      "std_latency": 0.35173030642936,
+      "min_latency": 8.299042224884033,
+      "max_latency": 9.037660837173462,
+      "latency_p50": 8.37186849117279,
+      "latency_p90": 8.859620523452758,
+      "latency_p95": 8.94864068031311,
+      "latency_p99": 9.01985680580139,
+      "ttft_estimate": 0.6202424168586731,
+      "ttft_p50": 0.5862786769866943,
+      "ttft_p90": 0.7830934524536133,
+      "ttft_p95": 0.813502550125122,
+      "ttft_p99": 0.8378298282623291,
+      "tokens_per_second": 0.44254482604574763,
+      "requests_per_second": 0.44254482604574763,
+      "throughput_per_user": 0.11063620651143691,
+      "avg_prompt_tokens": 0,
+      "avg_completion_tokens": 1,
+      "itl_p50": 8.37186849117279,
+      "itl_p90": 8.859620523452758,
+      "itl_p95": 8.94864068031311,
+      "itl_p99": 9.01985680580139,
+      "iteration": 0
+    }
+  ]
+}

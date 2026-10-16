@@ -30,6 +30,31 @@ the suspect 2026-08-16 legacy run. Ranking decisions use the A/B harness
 (`tests/benchmark.py`, raw `/generate` forced decodes — counts every token);
 the suite is kept only as a consistent, content-only cross-check.
 
+### mamba-bf16 — 2026-10-16
+
+- Config: baseline + bf16 GDN pool (`MAMBA_SSM_DTYPE=bfloat16`,
+  `MAMBA_FULL_MEMORY_RATIO=4.21`, `MAX_MAMBA_CACHE_SIZE=64`).
+- Cold start ready in 261 s; 0 failures/retractions.
+- **KV pool: 1,490,777 slots vs 962,380 baseline (+55%).**
+- A/B bench (`evidence/mamba-bf16-bench-20261016T051124Z.json`):
+
+| scenario | agg | dec p50 | ttft p50 | accept | baseline agg spread | baseline dec spread |
+|---|---|---|---|---|---|---|
+| short-c1 | 30.59 | 31.60 | 0.26 s | 3.46 | 30.1–36.6 | 31.1–38.1 |
+| short-c4 | 98.07 | 35.34 | 0.92 s | 4.39 | 101.6–122.7 | 35.2–37.9 |
+| short-c8 | 154.20 | 37.33 | 1.42 s | 5.52 | 137.9–144.5 | 29.5–33.2 |
+| short-c12 | 151.70 | 29.15 | 1.14 s | 4.73 | 144.5–151.1 | 26.8–28.3 |
+| short-c16 | 165.75 | 29.72 | 7.41 s | 4.54 | 141.8–154.6 | 25.0–26.5 |
+| long-c1 | 22.63 | 40.08 | 4.92 s | 4.49 | 21.1–22.9 | 35.0–40.1 |
+| long-c8 | 38.83 | 13.08 | 22.44 s | 5.08 | 37.4–38.3 | 11.0–11.6 |
+| long-c12 | 40.84 | 9.44 | 31.72 s | 5.09 | 39.5–40.4 | 10.6–10.8 |
+
+- Read: c8/c16 aggregate and c8 decode p50 land **above** the baseline
+  repeatability spread (c8 decode 37.3 vs ≤33.2; c8 agg 154.2 vs ≤144.5) —
+  a small likely-real win under load, plus **+55% KV capacity**. Everything
+  else within noise. Candidate to carry forward; pairs naturally with
+  `mem-90`/`maxreq-12` (capacity) once validated individually.
+
 ### mtp-flash / dflash-d8 — 2026-10-16 — blocked by image (DFLASH unsupported)
 
 - Startup fails while loading the DFlash 2 draft: `DFlash2DraftModel` is not
@@ -100,6 +125,10 @@ the suite is kept only as a consistent, content-only cross-check.
 - Verdict: DSPARK is worth **~2.5–3.3×** decode (p50 ~11–12.6 tok/s here vs
   ~25–38 baseline) and ~3× aggregate (c8: 45 vs 144). No-spec is rejected as
   a speed config; keep as a control for spec-decode questions.
+- Capacity footnote: this run reported only **203,406 KV slots** (vs 962,380
+  baseline) — without spec decode the engine allocates ~5× less KV on this
+  build. Recorded for the record; irrelevant while no-spec is rejected on
+  speed.
 
 ### baseline — 2026-10-16
 

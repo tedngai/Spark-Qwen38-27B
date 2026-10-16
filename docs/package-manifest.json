@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-10-16T05:03:01Z",
+  "generated_at": "2026-10-16T05:12:30Z",
   "repository": "Qwen3.8-27B-Deployment",
-  "file_count": 58,
+  "file_count": 64,
   "files": [
     {
       "path": ".env.example",
@@ -115,8 +115,8 @@
     },
     {
       "path": "docs/results.md",
-      "size": 7220,
-      "sha256": "6bea8868b966c61821d598084b0f33eaf14e21201cbc6d4f5377e79bd41ddf15"
+      "size": 8875,
+      "sha256": "e7188c9539dbf3eb790d72a1a5c0f4203688d18f6647c26c807a936530dfcc30"
     },
     {
       "path": "evidence/README.md",
@@ -207,6 +207,36 @@
       "path": "evidence/legacy-20260816/result_NVIDIA_GB10_RadixArk_Qwen3.8-27B-NVFP4_20260816_010833.json",
       "size": 861,
       "sha256": "f94e53c40b065d5f5f5471e026189211e4d5fcc36b1e046f1e892607028e1bbd"
+    },
+    {
+      "path": "evidence/mamba-bf16-bench-20261016T051124Z.json",
+      "size": 92973,
+      "sha256": "dfbcefb108f5303840fee7c8eda9b75c1c863fabf82e585cda94dabf0495a224"
+    },
+    {
+      "path": "evidence/mamba-bf16-server-info-20261016T050723Z.json",
+      "size": 49905,
+      "sha256": "13778def006b49df07d568cf2621b3d754fda9e7ee2cf32872c1a08acd99239c"
+    },
+    {
+      "path": "evidence/mamba-bf16-smoke-20261016T050725Z.json",
+      "size": 1338,
+      "sha256": "1fbea29859fed11a4b7a4999bcbe9e5b6cc09df98c37c0c9a35d58b9da514c62"
+    },
+    {
+      "path": "evidence/mamba-bf16-vllmbench-20261016T051124Z/benchmark_RadixArk_Qwen3.8-27B-NVFP4_20261016_051207.csv",
+      "size": 1199,
+      "sha256": "47ea9527970b5d7cde6456ba726fba475451ee08191d1e6943be0ae5c377a8ff"
+    },
+    {
+      "path": "evidence/mamba-bf16-vllmbench-20261016T051124Z/benchmark_RadixArk_Qwen3.8-27B-NVFP4_20261016_051207.json",
+      "size": 4419,
+      "sha256": "1da8a07c54366c736dcf48ee3cccc405524b407e3cf814b89c8967418e4c2610"
+    },
+    {
+      "path": "evidence/mamba-bf16-vllmbench-20261016T051124Z/result_NVIDIA_GB10_RadixArk_Qwen3.8-27B-NVFP4_20261016_051207.json",
+      "size": 815,
+      "sha256": "83194941480b8a652b46206fd9612620f0686a4e21f534aebacca59aa314ebe1"
     },
     {
       "path": "evidence/mtp-flash-unsupported-20261016.md",
