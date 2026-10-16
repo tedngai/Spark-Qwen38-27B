@@ -30,6 +30,27 @@ the suspect 2026-08-16 legacy run. Ranking decisions use the A/B harness
 (`tests/benchmark.py`, raw `/generate` forced decodes — counts every token);
 the suite is kept only as a consistent, content-only cross-check.
 
+### chunk-8192 — 2026-10-16
+
+- Config: baseline + `CHUNKED_PREFILL=8192`.
+- Cold start ready in 322 s (slowest of the sweep); KV pool 961,106 (~baseline).
+- A/B bench (`evidence/chunk-8192-bench-20261016T054110Z.json`):
+
+| scenario | agg | dec p50 | ttft p50 | accept | baseline agg spread |
+|---|---|---|---|---|---|
+| short-c1 | 36.24 | 37.91 | 0.31 s | 4.34 | 30.1–36.6 |
+| short-c4 | 112.10 | 32.11 | 0.79 s | 5.15 | 101.6–122.7 |
+| short-c8 | 149.20 | 27.97 | 1.85 s | 5.16 | 137.9–144.5 |
+| short-c12 | 127.93 | 27.11 | 1.41 s | 4.90 | 144.5–151.1 ← below band |
+| short-c16 | 165.28 | 25.66 | 6.86 s | 4.91 | 141.8–154.6 |
+| long-c1 | 22.81 | 49.92 | 6.09 s | 5.82 | 21.1–22.9 |
+| long-c8 | 31.04 | 13.01 | **32.83 s** | 4.95 | 37.4–38.3; baseline ttft 22.4 s ← worse |
+| long-c12 | 34.62 | 12.17 | **40.85 s** | 5.22 | 39.5–40.4; baseline ttft 31.7 s ← worse |
+
+- Read: net negative. Long-prompt TTFT degrades by ~8–10 s (larger prefill
+  chunks interleave worse under concurrency), long aggregates below band,
+  short-c12 below band. Rejected; keep chunked prefill at 2048.
+
 ### maxreq-12 — 2026-10-16
 
 - Config: baseline + `MAX_RUNNING_REQUESTS=12`.
